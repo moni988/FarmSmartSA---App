@@ -65,10 +65,12 @@ if st.button("Get Tips"):
         st.write("- Watch for pests and diseases")
         import requests
 
+st.maimport requests
+
 st.markdown("---")
 st.subheader("🌤️ Live Weather for " + province)
 
-API_KAPI_KEY = "b6a9082fddf3edfdb3c8903722f60c71"
+API_KEY = "b6a9082fddf3edfdb3c8903722f60c71"
 
 city_map = {
     "Gauteng": "Johannesburg",
@@ -83,14 +85,24 @@ city_map = {
 }
 
 city = city_map[province]
+
 url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
 
 try:
     response = requests.get(url)
     data = response.json()
-    temp = data['main']['temp']
-    desc = data['weather'][0]['description']
-    st.metric("Temperature", f"{temp}°C")
-    st.write(f"**Condition:** {desc}")
-except:
-    st.info("Weather loading... Key activates in 20 min or check internet")
+    
+    if response.status_code == 200:
+        temp = data['main']['temp']
+        desc = data['weather'][0]['description']
+        st.metric("Temperature", f"{temp}°C")
+        st.write(f"**Condition:** {desc}")
+    else:
+        st.warning(f"Could not get weather. Error: {data.get('message')}")
+        
+except Exception as e:
+    st.error("Weather service is having issues. Try again in a bit.")
+
+
+
+
