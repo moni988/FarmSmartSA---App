@@ -1,4 +1,4 @@
-    import streamlit as st
+import Streamlit as st
     st.set_page_config(page_title="FarmSmartSA", page_icon="🌾")
     st.title("🌾 FarmSmartSA")
     st.write("Weather and farming tips for SA farmers")
