@@ -23,7 +23,20 @@ st.write("Weather and farming tips for SA farmers")
 
 # Show an image of South Africa farming
 st.image("IMG-20260805-WA4690.jpg", caption="Powered by Farmers, Built for App SA")
+# FARMING TIPS SECTION
+st.subheader("🌱 Today's Farming Tips")
 
+col1, col2 = st.columns(2)
+
+with col1:
+    st.info("**Watering Tip**\n\nMorning is best! Water between 6am-9am.")
+
+with col2:
+    st.success("**Soil Tip**\n\nCheck soil 2 inches down. If dry, water.")
+
+st.warning("**Weather Watch**\n\nMulch around crops to keep roots cool.")
+
+st.divider()
 # ALL 9 PROVINCES
 provinces = [
     "Gauteng", "KwaZulu-Natal", "Western Cape", "Eastern Cape", 
