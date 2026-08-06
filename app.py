@@ -1,12 +1,52 @@
 import streamlit as st
-st.set_page_config(page_title="FarmSmartSA", page_icon="🌾")
+
+# Page setup with color
+st.set_page_config(page_title="FarmSmartSA", page_icon="🌾", layout="wide")
+
+# Add some color with CSS
+st.markdown("""
+    <style>
+    .stButton>button {
+        background-color: #2E7D32;
+        color: white;
+        border-radius: 10px;
+        font-size: 18px;
+    }
+    h1 {
+        color: #1B5E20;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 st.title("🌾 FarmSmartSA")
 st.write("Weather and farming tips for SA farmers")
 
-province = st.selectbox("Select Province", ["Gauteng", "KZN", "Western Cape", "Eastern Cape", "Free State"])
+# Show an image of South Africa farming
+st.image("https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800", caption="Farming in South Africa")
+
+# ALL 9 PROVINCES
+provinces = [
+    "Gauteng", "KwaZulu-Natal", "Western Cape", "Eastern Cape", 
+    "Limpopo", "Mpumalanga", "North West", "Free State", "Northern Cape"
+]
+province = st.selectbox("Select Province", provinces)
 
 if st.button("Get Tips"):
-    st.success(f"Farming tips for {province}:")
-    st.write("- Check weather forecast this week")
-    st.write("- Test soil moisture before planting")
-    st.write("- Watch for pests after rain")
+    st.success(f"🌱 Farming tips for {province}")
+    
+    if province == "KwaZulu-Natal":
+        st.write("- Plant sugarcane and maize in summer")
+        st.write("- Watch for heavy rains and flooding")
+        st.write("- Test soil for acidity")
+    elif province == "Western Cape":
+        st.write("- Grape and wine farming season")
+        st.write("- Irrigation important - watch water levels")
+        st.write("- Plant wheat in winter")
+    elif province == "Limpopo":
+        st.write("- Citrus and avocado farming")
+        st.write("- Prepare for hot, dry conditions")
+        st.write("- Irrigate early morning")
+    else:
+        st.write("- Check weather forecast daily")
+        st.write("- Test soil moisture")
+        st.write("- Watch for pests and diseases")
