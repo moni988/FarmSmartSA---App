@@ -63,9 +63,9 @@ if st.button("Get Tips"):
         st.write("- Check weather forecast daily")
         st.write("- Test soil moisture")
         st.write("- Watch for pests and diseases")
-        import requests
+        
 
-st.maimport requests
+st.ma
 
 st.markdown("---")
 st.subheader("🌤️ Live Weather for " + province)
