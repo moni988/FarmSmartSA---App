@@ -22,7 +22,7 @@ st.title("🌾 FarmSmartSA")
 st.write("Weather and farming tips for SA farmers")
 
 # Show an image of South Africa farming
-st.image("https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800", caption="Farming in South Africa")
+st.image("IMG-20260805-WA0000.jpg", caption="Powered by Farmers, Built for SA", use_column_width=True)
 
 # ALL 9 PROVINCES
 provinces = [
