@@ -68,7 +68,7 @@ if st.button("Get Tips"):
 st.markdown("---")
 st.subheader("🌤️ Live Weather for " + province)
 
-API_KEY = "b6a9082fddf3edfdb3c8903722f60c71"
+API_KAPI_KEY = "b6a9082fddf3edfdb3c8903722f60c71"
 
 city_map = {
     "Gauteng": "Johannesburg",
