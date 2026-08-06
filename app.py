@@ -63,3 +63,34 @@ if st.button("Get Tips"):
         st.write("- Check weather forecast daily")
         st.write("- Test soil moisture")
         st.write("- Watch for pests and diseases")
+        import requests
+
+st.markdown("---")
+st.subheader("🌤️ Live Weather for " + province)
+
+API_KEY = "b6a9082fddf3edfdb3c8903722f60c71"
+
+city_map = {
+    "Gauteng": "Johannesburg",
+    "KwaZulu-Natal": "Durban",
+    "Western Cape": "Cape Town",
+    "Eastern Cape": "Gqeberha",
+    "Limpopo": "Polokwane",
+    "Mpumalanga": "Nelspruit",
+    "North West": "Rustenburg",
+    "Free State": "Bloemfontein",
+    "Northern Cape": "Kimberley"
+}
+
+city = city_map[province]
+url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
+
+try:
+    response = requests.get(url)
+    data = response.json()
+    temp = data['main']['temp']
+    desc = data['weather'][0]['description']
+    st.metric("Temperature", f"{temp}°C")
+    st.write(f"**Condition:** {desc}")
+except:
+    st.info("Weather loading... Key activates in 20 min or check internet")
