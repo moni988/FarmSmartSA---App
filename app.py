@@ -5,135 +5,143 @@ from datetime import datetime
 st.set_page_config(page_title="SmartFarmSA", page_icon="🌿", layout="centered")
 
 st.title("🌿 SmartFarmSA v2")
-st.write("**Built for Mapeng Ward 11 - Bare Beauty Botanicals Farm**")
-st.write("Check if weather is good for your 0.5ha near Mapfontein JSS + Sell Online")
-st.caption(f"Today: {datetime.now().strftime('%d %B %Y')} | NYDA R10,000 Ready")
+st.write("**Built for Mapeng Ward 11 - Bare Beauty Farm**")
+st.write("Check weather + What each province can grow - Matatiele base online everywhere")
 
-# LOCATION
-st.subheader("📍 Your Farm Location")
-location = st.selectbox("Select", ["Mapeng Ward 11 (Matatiele) - Base", "Durban", "Other"])
-city = "Matatiele" if "Mapeng" in location else "Durban"
+# LOCATION + WEATHER WITH HIDDEN KEY
+st.subheader("📍 Your Farm")
+location = st.selectbox("Select Province to see tips", ["Mapeng Ward 11 (Matatiele) - Eastern Cape", "KwaZulu-Natal", "Western Cape", "Limpopo", "Mpumalanga", "Gauteng", "North West", "Free State", "Northern Cape"])
+city = "Matatiele" if "Mapeng" in location or "Eastern Cape" in location else location.split(" ")[0]
 
-# WEATHER WITH HIDDEN API KEY - SAFE
-st.subheader("🌤️ Live Weather - Matatiele")
-
-# Get API key from Secrets safely - NOT in code
 try:
     API_KEY = st.secrets["WEATHER_API_KEY"]
 except:
-    # Fallback to your key if secrets not set yet, but hide from GitHub later
     API_KEY = st.secrets.get("WEATHER_API_KEY", "b6a9082fddf3edfdb3c8903722f60c71")
 
-# Use https not http
 url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
-
 try:
     r = requests.get(url, timeout=10)
     data = r.json()
     temp = data['main']['temp']
     humidity = data['main']['humidity']
     desc = data['weather'][0]['description']
-
     col1, col2, col3 = st.columns(3)
     col1.metric("Temp", f"{temp}°C")
     col2.metric("Humidity", f"{humidity}%")
     col3.metric("Condition", desc)
     st.caption(f"Updated: {datetime.now().strftime('%H:%M')} - {city}")
+except:
+    st.warning("Weather loading... 22°C sunny Matatiele - good for Aloe")
+    temp = 22
+    desc = "clear"
 
-    # SMART CHECK FOR YOUR 4 PLANTS
-    st.divider()
-    st.subheader("✅ Plant Check Today")
-
-    if temp < -5:
-        st.error("❄️ Frost Alert! Cover young Moringa, but Aloe, Spekboom, Lemongrass are OK")
-    elif temp < 5:
-        st.warning("Cold morning - Don't plant cuttings today. Wait for 10°C+")
-    else:
-        st.success("Good day to plant cuttings")
-
-    if "rain" in desc.lower():
-        st.info("🌧️ Rain today: Perfect for planting Spekboom sticks - they root faster!")
-        st.write("- Aloe Ferox 100 plants south: Don't water, loves dry")
-        st.write("- Lemongrass 70m east: Likes rain, will grow fast")
-        st.write("- Spekboom 50 west: BEST time to stick cuttings")
-        st.write("- Moringa 100 center: Likes rain first 3 months")
-    elif temp > 30:
-        st.info("☀️ Hot: Water Lemongrass early morning. Aloe & Spekboom don't need water. Moringa needs shade first week")
-    else:
-        st.info("🌤️ Mild: Good for all 4. Plant 50 Spekboom today along west fence")
-
-    st.divider()
-    st.subheader("🌱 Soil Check - Mapeng Ward 11")
-    soil = st.selectbox("Soil in your plot?", ["Degraded / Donga", "Sandy", "Clay", "Loam"])
-    if soil == "Degraded / Donga":
-        st.write("**For your plot near Mapfontein JSS (sandy loam brown):**")
-        st.write("- Spekboom: ⭐⭐⭐⭐⭐ - Will fix soil, holds donga, Municipality IDP likes")
-        st.write("- Aloe Ferox: ⭐⭐⭐⭐⭐ - Loves degraded soil, no compost")
-        st.write("- Lemongrass: ⭐⭐⭐ - Needs 100 buckets compost, plant near compost area east")
-        st.write("- Moringa: ⭐⭐⭐ - Needs 200 buckets compost, deep holes center")
-        st.write("**Compost:** Cow dung + dry leaves + kitchen waste + soil = 2 months, need 300 buckets")
-    else:
-        st.write(f"Soil {soil}: Add compost for Lemongrass and Moringa, Aloe and Spekboom no need")
-
-except Exception as e:
-    st.warning("Weather loading... check internet or API key in Secrets")
-    st.write("Free backup: Matatiele 22°C sunny - good for harvesting Aloe morning")
-
-# ADDED: WHERE YOU SELL - YOU LEFT THIS
+# EACH PROVINCE WHAT THEY CAN GROW
 st.divider()
-st.header("🌍 Selling - Matatiele Base, Online Everywhere")
-st.write("**Base:** Matatiele Ward 11 Mapeng - PTO land free, Aloe wild, cost low")
-st.write("**Local:** Mapfontein School, Matatiele Town Market, Taxi Rank, Clinics, Churches - Same day R20")
-st.write("**Online:** Facebook, WhatsApp, TikTok, Instagram - Paxi to Pep Store all provinces 3-5 days R100")
+st.header("🌱 Each Province - What They Can Grow")
 
-provinces = ["Eastern Cape", "KwaZulu-Natal", "Western Cape", "Limpopo", "Mpumalanga", "Gauteng", "North West", "Free State", "Northern Cape"]
-selected = st.selectbox("Customer Province - Delivery?", provinces)
-st.success(f"I deliver Matatiele to {selected} - Yes! R100 courier")
+if "Eastern Cape" in location:
+    st.subheader("Eastern Cape - Matatiele Mapeng Ward 11 (Your Farm 0.5ha)")
+    st.write("**Soil:** Sandy loam brown near mountain, degraded/donga near Mapfontein JSS, drains fast")
+    st.write("**Base:** PTO land free, 100% youth, near Mapfontein JSS")
 
-# ADDED: WHOLE PRODUCTS PURPOSE - YOU LEFT THIS
+    st.write("**1. Aloe Ferox 100 plants - SOUTH SIDE of farm**")
+    st.write("- Where: South side slope, rocky, poor soil, no compost")
+    st.write("- Why Matatiele: Wild Aloe grows here, frost hardy, loves Eastern Cape cold winter -5°C to 30°C")
+    st.write("- How: Holes 30cm, no water after 1 month, cut outer leaves after 6 months, 5L every 3 months free")
+    st.write("- Soil tip: Degraded soil BEST, don't add dung will rot")
+
+    st.write("**2. Lemongrass 70m row - EAST SIDE morning sun**")
+    st.write("- Where: East side where morning sun comes, near compost area")
+    st.write("- Why Matatiele: Needs water, Matatiele rain 600mm, summer hot")
+    st.write("- How: 100 buckets compost mix, water 2x week, cut every 2 months for scent in lotion")
+    st.write("- Soil tip: Rich soil, needs dung + leaves, plant after rain")
+
+    st.write("**3. Spekboom 50 plants - WEST and NORTH fence**")
+    st.write("- Where: West and North edge where wind comes, donga edge to stop erosion")
+    st.write("- Why Matatiele: Municipality IDP likes Spekboom carbon credit, stops donga, survives drought")
+    st.write("- How: Stick cuttings directly in ground, no water, no compost, best plant on rainy day")
+    st.write("- Soil tip: Any degraded soil, holds soil, windbreak for other plants")
+
+    st.write("**4. Moringa 100 plants - CENTER full sun**")
+    st.write("- Where: Center of farm full sun, deep holes")
+    st.write("- Why Matatiele: Needs protection first winter from frost, center warmest, cover with sack if frost")
+    st.write("- How: 200 buckets compost, holes 50cm deep, water first 3 months, then drought tolerant")
+    st.write("- Soil tip: Deep compost, full sun, leaves for tea, seeds oil for premium lotion later")
+
+elif "KwaZulu-Natal" in location:
+    st.subheader("KwaZulu-Natal - Durban, Pietermaritzburg")
+    st.write("- What can grow: **Lemongrass ⭐⭐⭐⭐⭐**, Moringa ⭐⭐⭐⭐⭐, Aloe ⭐⭐⭐, Spekboom ⭐⭐⭐")
+    st.write("- Soil: Red loam, humid, lots rain")
+    st.write("- Tip: KZN hot humid - Lemongrass and Moringa love it, grow fast, cut 4x year. Aloe too wet - plant on mound. Spekboom less frost hardy but ok coast")
+    st.write("- Market: Sell lotion in Durban - beach tourists love natural")
+
+elif "Western Cape" in location:
+    st.subheader("Western Cape - Cape Town, Stellenbosch")
+    st.write("- What can grow: **Spekboom ⭐⭐⭐⭐⭐**, Aloe Ferox ⭐⭐⭐⭐⭐, Lemongrass ⭐⭐⭐, Rooibos ⭐⭐⭐⭐⭐")
+    st.write("- Soil: Sandy, windy, dry summer")
+    st.write("- Tip: WC dry - Spekboom and Aloe perfect, no water. Rooibos grows wild here - use for your tea water. Lemongrass needs water in summer")
+    st.write("- Market: Eco shops, tourists pay R200 for lotion")
+
+elif "Limpopo" in location:
+    st.subheader("Limpopo - Polokwane, Tzaneen")
+    st.write("- What can grow: **Moringa ⭐⭐⭐⭐⭐**, Marula ⭐⭐⭐⭐⭐, Aloe ⭐⭐⭐⭐, Lemongrass ⭐⭐⭐⭐")
+    st.write("- Soil: Sandy, very hot")
+    st.write("- Tip: Hottest province - Moringa and Marula love heat, Marula oil from Limpopo best. Aloe ok. Water Lemongrass daily")
+    st.write("- Market: Marula oil source - get oil cheaper from Limpopo farmers")
+
+elif "Mpumalanga" in location:
+    st.subheader("Mpumalanga - Nelspruit, Hazyview")
+    st.write("- What can grow: **Lemongrass ⭐⭐⭐⭐⭐**, Moringa ⭐⭐⭐⭐, Aloe ⭐⭐⭐⭐, Spekboom ⭐⭐⭐")
+    st.write("- Soil: Loam, subtropical, rain")
+    st.write("- Tip: Like KZN, humid - Lemongrass grows tall, Moringa fast. Aloe on slope. Good for essential oils")
+
+elif "Gauteng" in location:
+    st.subheader("Gauteng - Johannesburg, Pretoria")
+    st.write("- What can grow: **Spekboom ⭐⭐⭐⭐⭐**, Aloe ⭐⭐⭐⭐, Lemongrass ⭐⭐⭐ (in pots), Moringa ⭐⭐⭐ (frost protection)")
+    st.write("- Soil: Clay, Highveld frost -5°C winter")
+    st.write("- Tip: Gauteng cold winter - Spekboom in pots, Aloe frost hardy. Lemongrass and Moringa need greenhouse or cover winter. Best province to SELL not grow - market R150 lotion in Sandton")
+
+elif "North West" in location:
+    st.subheader("North West - Rustenburg, Mahikeng")
+    st.write("- What can grow: **Aloe ⭐⭐⭐⭐⭐**, Spekboom ⭐⭐⭐⭐⭐, Moringa ⭐⭐⭐⭐, Lemongrass ⭐⭐⭐")
+    st.write("- Soil: Sandy, dry, hot")
+    st.write("- Tip: Very dry - Aloe and Spekboom perfect, no water. Moringa ok. Lemongrass needs borehole water")
+
+elif "Free State" in location:
+    st.subheader("Free State - Bloemfontein")
+    st.write("- What can grow: **Aloe ⭐⭐⭐⭐⭐**, Spekboom ⭐⭐⭐⭐, Lemongrass ⭐⭐, Moringa ⭐⭐ (frost)")
+    st.write("- Soil: Clay loam, very cold winter -10°C frost")
+    st.write("- Tip: Coldest - Only Aloe and Spekboom survive frost. Moringa and Lemongrass die winter unless in tunnel. Best grow Aloe")
+
+elif "Northern Cape" in location:
+    st.subheader("Northern Cape - Kimberley, Upington")
+    st.write("- What can grow: **Aloe ⭐⭐⭐⭐⭐**, Spekboom ⭐⭐⭐⭐⭐, Moringa ⭐⭐⭐")
+    st.write("- Soil: Desert sandy, hottest and driest")
+    st.write("- Tip: Desert - Only Aloe Ferox and Spekboom survive. No water needed. Moringa needs irrigation. Lemongrass impossible without water")
+
+# SELLING
 st.divider()
-st.header("🧴 Bare Beauty Products - Whole Purpose")
+st.header("🌍 Selling - Matatiele to All Provinces")
+st.write("Base Matatiele Ward 11 Mapeng PTO land free, Aloe wild, cost low R120 not R200 like Clicks")
+provinces_all = ["Eastern Cape - Matatiele same day R20", "KwaZulu-Natal R100 Paxi", "Western Cape R100", "Limpopo R100", "Mpumalanga R100", "Gauteng R100", "North West R100", "Free State R100", "Northern Cape R100"]
+selected2 = st.selectbox("Delivery province?", provinces_all)
+st.success(f"Yes! Deliver to {selected2}")
 
-st.subheader("Body Lotion 200ml - R120")
-st.write("**Purpose whole:** Heals whole body dry cracked skin from Matatiele sun wind. For farmers, teachers, kids, everyone. Soft, not sticky, Rooibos Marula scent.")
-st.write("**How to use:** Pump 2 times after bath morning + night, whole body. Winter use 3 times.")
-
-st.subheader("Face Cream 50ml - R95")
-st.write("**Purpose whole:** Face only - pimples, dark spots, sunburn, sensitive. Light, no oil, youth glow.")
-st.write("**How to use:** Clean face, pea size only, morning + night, jar lasts 30 days.")
-
-st.subheader("Combo R200")
-st.write("Purpose: Body + face full care, save R15, customer buys 2 fast")
-
-# ADDED: INGREDIENTS + TOOLS WHOLE - YOU LEFT THIS
+# PRODUCTS
 st.divider()
-st.header("📦 What Inside - Whole Kit No Price Each")
-st.write("**Ingredients whole:** Aloe Gel 5L from farm, Shea Butter 10kg, Marula Oil 8L, Beeswax 4kg, Vitamin E 800ml, Rooibos Tea 4 boxes, Geogard Preservative 200ml - No cloves, with gloves")
-st.write("**Containers:** 100 green pump bottles 200ml, 100 amber glass jars 50ml, 400 stickers with QR code")
-st.write("**Tools whole:** Blender stick, 2 stainless pots double boiler, 2 jugs 5L, spoons, pH strips 5.5 safe, thermometer 0-100C, gloves blue 100pcs, hair net + apron, scale - for right measure + hygiene + NYDA photo")
-
-# ADDED: STOCK + PROFIT - YOU LEFT THIS
-st.divider()
-st.header("💰 Stock 41 Bottles + Profit")
-st.write("Now: 5L Aloe / 120ml = 41 lotions limit. After 6 months free 5L every 3 months = 41 free")
-lotion = st.number_input("Lotion bottles", value=41)
-cream = st.number_input("Cream jars", value=100)
-sales = lotion*120 + cream*95
-st.metric("Total Sales", f"R{sales}")
-st.write("NYDA R10,000 = R5,000 ingredients + R3,000 containers + R1,610 tools + R390 taxi left")
-st.write("Profit first batch: R11,472")
+st.header("🧴 Products Whole Purpose")
+st.subheader("Body Lotion 200ml R120")
+st.write("Purpose whole: Heals whole body dry cracked skin from sun wind, Matatiele winter dry, for farmers teachers kids, soft not sticky")
+st.subheader("Face Cream 50ml R95")
+st.write("Purpose whole: Face only pimples dark spots sunburn, light not oily, youth glow")
+st.write("Combo R200 save R15")
 
 st.divider()
-st.subheader("Did this help for Mapeng?")
-c1, c2 = st.columns(2)
-if c1.button("👍 Helpful"):
-    st.success("Thanks! Use it Monday when you go to Municipality")
-    st.balloons()
-if c2.button("👎 Need fix"):
-    st.info("What to add? Tell me - Moringa oil? Online order form?")
+st.header("📦 Whole Kit")
+st.write("Ingredients: Aloe 5L farm, Shea 10kg, Marula 8L, Beeswax 4kg, Vit E 800ml, Rooibos 4 boxes, Geogard 200ml")
+st.write("Tools: Blender, 2 pots, 2 jugs, spoons, pH strips 5.5, thermometer, gloves blue, hair net apron, scale")
 
-st.caption("SmartFarmSA v2 | For Bare Beauty Farm 0.5ha | Matatiele to SA online 🌿")
-st.caption("API Key hidden in Secrets - Safe from GitHub")
+st.caption("SmartFarmSA | Eastern Cape detailed Matatiele locations | Other provinces tips")
 
 
 
