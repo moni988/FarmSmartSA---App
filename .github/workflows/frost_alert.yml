@@ -1,0 +1,40 @@
+name: Daily Farm Alert 4AM
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+jobs:
+  alert:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Send Alert
+        env:
+          WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: |
+          pip install requests
+          python -c "
+          import requests, os
+          API=os.getenv('WEATHER_API_KEY')
+          BOT=os.getenv('BOT_TOKEN')
+          CHAT=os.getenv('CHAT_ID')
+          url=f'https://api.openweathermap.org/data/2.5/weather?q=Matatiele&appid={API}&units=metric'
+          d=requests.get(url,timeout=10).json()
+          tmin=d['main']['temp_min']
+          tmax=d['main']['temp_max']
+          temp=d['main']['temp']
+          hum=d['main']['humidity']
+          if tmin<=2:
+              msg=f'🚨 FROST {tmin}C Tonight!\nCover Moringa + Lemongrass with plastic. Water 6AM only. Now {temp}C'
+          elif tmax>=32:
+              msg=f'🥵 HEAT {tmax}C Today! Water 6AM Aloe 5L Moringa 3L. Now {temp}C'
+          else:
+              msg=f'✅ Farm OK Low {tmin}C High {tmax}C Now {temp}C Hum {hum}%'
+          requests.get(f'https://api.telegram.org/bot{BOT}/sendMessage',params={'chat_id':CHAT,'text':msg},timeout=10)
+          "
