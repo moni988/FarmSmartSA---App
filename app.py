@@ -27,7 +27,7 @@ try:
     if temp_min <= 2:
         st.error(f"❄️ FROST {temp_min}°C - COVER Moringa CENTER sack, Lemongrass EAST mulch")
     elif temp > 30:
-        st.warning(f"☀️ HEAT {temp}°C - Water Lemongrass EAST 5am only")
+        st.warning(f"🌞 HEAT {temp}°C - Water Lemongrass EAST 5am only")
     elif "rain" in desc.lower():
         st.success(f"🌧️ RAIN - BEST plant Spekboom WEST+NORTH fence today!")
     else:
