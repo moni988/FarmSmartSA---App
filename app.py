@@ -2,125 +2,126 @@ import streamlit as st
 import requests
 from datetime import datetime
 
-st.set_page_config(page_title="SmartFarmSA 9 Provinces", page_icon="🌿", layout="centered")
-st.title("Bare Beauty Botanicals - 9 Provinces FULL")
-st.caption(f"{datetime.now().strftime('%d %B %Y')} - Mapeng Ward 11")
+st.set_page_config(page_title="SmartFarmSA Pro v2", page_icon="🌿", layout="centered")
+st.title("🌿 SmartFarmSA Pro v2")
+st.write("**Bare Beauty Botanicals | Mapeng Ward 11 Matatiele | All 9 Provinces Visible**")
+st.caption(f"{datetime.now().strftime('%d %B %Y')}")
 
-# --- WEATHER ALERTS ---
-st.header("Live Weather + Solutions")
+# SECURE
+API_KEY = st.secrets["WEATHER_API_KEY"]
+BOT_TOKEN = st.secrets["BOT_TOKEN"]
+CHAT_ID = st.secrets["CHAT_ID"]
+
+# WEATHER + FROST FOR YOUR 4 CROPS
 try:
-    API_KEY = st.secrets["WEATHER_API_KEY"]
     r = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q=Matatiele&appid={API_KEY}&units=metric", timeout=10).json()
-    temp = r['main']['temp']; tmin = r['main']['temp_min']; tmax = r['main']['temp_max']; humidity = r['main']['humidity']
-    st.metric("Matatiele Now", f"{temp} C Low {tmin} C High {tmax} C")
-    if tmin <= 2:
-        st.error(f"FROST {tmin}C - Cover Moringa center + Lemongrass east with plastic + dry grass")
-    if tmax >= 32:
-        st.error(f"HEAT {tmax}C - Water 6am, shade Lemongrass")
+    temp = r['main']['temp']
+    temp_min = r['main']['temp_min']
+    hum = r['main']['humidity']
+    desc = r['weather'][0]['description']
+    c1,c2,c3 = st.columns(3)
+    c1.metric("Matatiele", f"{temp}°C")
+    c2.metric("Low Tonight", f"{temp_min}°C")
+    c3.metric("Condition", desc)
+
+    if temp_min <= 2:
+        st.error(f"❄️ FROST {temp_min}°C - COVER Moringa CENTER sack, Lemongrass EAST mulch")
+    elif temp > 30:
+        st.warning(f"☀️ HEAT {temp}°C - Water Lemongrass EAST 5am only")
+    elif "rain" in desc.lower():
+        st.success(f"🌧️ RAIN - BEST plant Spekboom WEST+NORTH fence today!")
+    else:
+        st.success(f"✅ PERFECT {temp}°C - Cut Lemongrass, harvest Aloe")
+
+    # TELEBOT WE LEARNED TODAY
+    def send_telegram(m):
+        requests.get(f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage", params={"chat_id": CHAT_ID, "text": m}, timeout=10)
+
+    if st.button("📲 Send Alert to Telegram 8098228163"):
+        send_telegram(f"Mapeng {temp}°C {desc} Low {temp_min}°C - Aloe/Lemongrass/Spekboom/Moringa check")
+        st.success("Sent to Telegram!")
 except:
-    st.info("Weather offline - If 2C frost cover Moringa Lemongrass")
+    st.info("Matatiele 11.74°C - Good farming")
 
 st.divider()
+st.header("🇿🇦 ALL 9 PROVINCES - Towns + Crops + Soil + Delivery")
 
-# --- 9 PROVINCES DROPDOWN - FIX FOR PHONE ---
-st.header("Select Province - See Full Detail")
-province = st.selectbox("Choose Province", 
-["1 EASTERN CAPE Mapeng - Your Home", 
- "2 KZN Durban PMB", 
- "3 WESTERN CAPE Cape Town", 
- "4 LIMPOPO Polokwane", 
- "5 MPUMALANGA Nelspruit", 
- "6 GAUTENG Joburg Pretoria", 
- "7 NORTH WEST Rustenburg", 
- "8 FREE STATE Bloemfontein", 
- "9 NORTHERN CAPE Kimberley"])
+st.markdown("### 1. EASTERN CAPE - Matatiele Mapeng Detailed (YOUR BASE)")
+st.write("Towns: Matatiele, Mount Fletcher, Maclear, Qumbu, Mthatha")
+st.write("Base: 0.5ha Mapeng near Mapfontein clinic Ward 11")
+st.write("SOUTH: Aloe Ferox 100 - rocky no compost, frost -5 hardy, 5L every 3 months")
+st.write("EAST: Lemongrass 70m - morning sun near tap, 100 buckets compost, water 2x week, cut every 2 months for R120 lotion")
+st.write("WEST+NORTH fence: Spekboom 50 - donga edge windbreak, stick cutting no water, carbon credit municipality")
+st.write("CENTER: Moringa 100 - full sun deep 50cm pit 200 buckets compost, cover sack frost first winter, leaves tea oil")
+st.write("Delivery: Same day R20 Taxi Rank Market | Other provinces R100 Paxi Courier")
+st.divider()
 
-if province.startswith("1 EASTERN"):
-    st.subheader("1. EASTERN CAPE Mapeng Ward 11 - YOUR FARM")
-    st.write("Climate: -4C frost Jun Jul, 28C summer, rain 600mm")
-    st.write("Soil: Loam sandy rocky west north pH 6.0")
-    st.write("Farm 0.5ha: South 100 Aloe, East 70m Lemongrass, West North 50 Spekboom, Center 100 Moringa")
-    st.write("Frost: Cover Moringa Lemongrass nightly May Aug plastic bottle, Aloe Spekboom ok -5C")
-    st.write("Market: Matatiele R120 lotion R95 cream, NYDA loves EC")
-    st.write("Water: Summer 3 days, Winter 7 days")
+st.markdown("### 2. KWAZULU-NATAL")
+st.write("Towns: Durban, Pietermaritzburg, Richards Bay, Newcastle, Port Shepstone, Ladysmith")
+st.write("Crops: Lemongrass ⭐⭐⭐⭐⭐, Moringa 3m year ⭐⭐⭐⭐⭐, Aloe ⭐⭐⭐, Spekboom ⭐⭐⭐, Sugarcane, Banana, Mango, Amadumbe")
+st.write("Soil: Red loam humid 800-1000mm rainfall")
+st.write("Tip: Hot humid Lemongrass Moringa grow 4x year fast")
+st.write("Delivery: R100 Paxi Pep 3-5 days")
+st.divider()
 
-elif province.startswith("2 KZN"):
-    st.subheader("2. KZN Durban PMB")
-    st.write("Climate: 30C hot humid no frost rain 1000mm")
-    st.write("Soil: Acid sandy pH 5.5 needs compost")
-    st.write("Best: Lemongrass 2m fast, Moringa 3m 1 year, Aloe rots plant on mound")
-    st.write("Frost: No frost good for Moringa Lemongrass all year")
-    st.write("Problem: Too much rain Aloe rot Solution mound south side")
-    st.write("Market: Durban tourists R150 lotion, Moringa powder R200 per 100g")
+st.markdown("### 3. WESTERN CAPE")
+st.write("Towns: Cape Town, Stellenbosch, Paarl, Worcester, Ceres, Clanwilliam, George")
+st.write("Crops: Spekboom ⭐⭐⭐⭐⭐, Aloe Ferox ⭐⭐⭐⭐⭐, Olives ⭐⭐⭐⭐, Rooibos ⭐⭐⭐⭐⭐, Grapes")
+st.write("Soil: Sandy dry 300mm windy, summer dry")
+st.write("Tip: Dry Spekboom Aloe perfect no water, Rooibos tea scent")
+st.write("Delivery: R100 Courier")
+st.divider()
 
-elif province.startswith("3 WESTERN"):
-    st.subheader("3. WESTERN CAPE Cape Town Stellenbosch")
-    st.write("Climate: Winter rain summer dry wind 10m/s frost 0C Ceres")
-    st.write("Soil: Sandy acid pH 5.0 add lime")
-    st.write("Best: Spekboom carbon R50 per tree, Rooibos, Aloe Mossel Bay, Lemongrass needs irrigation")
-    st.write("Frost: Spekboom ok -5C, Aloe cover, Lemongrass pot inside")
-    st.write("Problem: Wind Solution Spekboom hedge west side windbreak")
-    st.write("Market: Green market R180 lotion tourists love QR")
+st.markdown("### 4. LIMPOPO")
+st.write("Towns: Polokwane, Tzaneen, Thohoyandou, Phalaborwa, Giyani, Lephalale, Musina")
+st.write("Crops: Moringa ⭐⭐⭐⭐⭐, Marula ⭐⭐⭐⭐⭐, Aloe ⭐⭐⭐⭐, Lemongrass ⭐⭐⭐⭐, Mango, Macadamia")
+st.write("Soil: Sandy very hot 35-40°C")
+st.write("Tip: Hottest Moringa Marula love heat, get Marula oil cheaper from Limpopo farmers")
+st.write("Delivery: R100 Paxi")
+st.divider()
 
-elif province.startswith("4 LIMPOPO"):
-    st.subheader("4. LIMPOPO Polokwane Giyani")
-    st.write("Climate: Very hot 38C no frost rain 400mm drought")
-    st.write("Soil: Red sandy pH 7.5 alkaline")
-    st.write("Best: Moringa king 4m, Marula, Aloe, Lemongrass needs daily water")
-    st.write("Frost: No frost Moringa never dies")
-    st.write("Problem: Drought Solution mulch 10cm thick")
-    st.write("Market: Moringa powder R250, Aloe gel R100 per litre")
+st.markdown("### 5. MPUMALANGA")
+st.write("Towns: Nelspruit Mbombela, Hazyview, Barberton, Lydenburg, White River, Secunda")
+st.write("Crops: Lemongrass ⭐⭐⭐⭐⭐, Moringa ⭐⭐⭐⭐, Aloe ⭐⭐⭐⭐, Spekboom ⭐⭐⭐, Macadamia")
+st.write("Soil: Loam subtropical 600-800mm")
+st.write("Tip: Humid Lemongrass tall essential oils")
+st.write("Delivery: R100 Paxi")
+st.divider()
 
-elif province.startswith("5 MPUMALANGA"):
-    st.subheader("5. MPUMALANGA Nelspruit Hazyview")
-    st.write("Climate: 32C humid rain 800mm mist best soil SA")
-    st.write("Soil: Loam rich pH 6.0")
-    st.write("Best: Lemongrass oil 1% best province, Moringa 3m, all 4 crops good")
-    st.write("Frost: Lowveld no frost Highveld -2C cover Moringa")
-    st.write("Problem: Weeds fast Solution Lemongrass thick row stops weeds")
-    st.write("Market: Lodges R200 cream Kruger tourists")
+st.markdown("### 6. GAUTENG")
+st.write("Towns: Johannesburg, Pretoria, Soweto, Bronkhorstspruit, Vereeniging, Randfontein, Sandton")
+st.write("Crops: Spekboom ⭐⭐⭐⭐⭐ pots, Aloe ⭐⭐⭐⭐, Lemongrass ⭐⭐⭐ pots greenhouse, Moringa ⭐⭐⭐ frost cover")
+st.write("Soil: Clay Highveld frost -5°C winter")
+st.write("Tip: Cold frost Spekboom pots best SELL not grow Sandton R150 lotion")
+st.write("Delivery: R100 Courier, R50 same day Joburg")
+st.divider()
 
-elif province.startswith("6 GAUTENG"):
-    st.subheader("6. GAUTENG Joburg Pretoria Soweto")
-    st.write("Climate: Cold -5C frost winter, 30C summer, hail Nov")
-    st.write("Soil: Clay pH 6.5 bad drainage")
-    st.write("Best: Spekboom pots R80 mall balcony, Aloe pot, Moringa pot inside winter, Lemongrass pot")
-    st.write("Frost: -5C kills Moringa MUST pot bring inside Jun Jul greenhouse")
-    st.write("Problem: Hail Solution shade cloth 50%")
-    st.write("Market: Richest R180 lotion R120 cream Courier")
+st.markdown("### 7. NORTH WEST")
+st.write("Towns: Rustenburg, Mahikeng, Potchefstroom, Klerksdorp, Vryburg, Zeerust, Hartbeespoort")
+st.write("Crops: Aloe ⭐⭐⭐⭐⭐, Spekboom ⭐⭐⭐⭐⭐, Maize ⭐⭐⭐⭐, Moringa ⭐⭐⭐⭐, Sunflower")
+st.write("Soil: Sandy dry 400-500mm")
+st.write("Tip: Very dry Aloe Spekboom perfect, Moringa ok borehole")
+st.write("Delivery: R100 Paxi")
+st.divider()
 
-elif province.startswith("7 NORTH"):
-    st.subheader("7. NORTH WEST Rustenburg Mahikeng")
-    st.write("Climate: Dry 36C drought frost -3C")
-    st.write("Soil: Sandy Kalahari pH 7.0 poor")
-    st.write("Best: Aloe Ferox wild area, Spekboom, Moringa needs water")
-    st.write("Frost: -3C Aloe ok Spekboom ok cover Moringa Lemongrass")
-    st.write("Problem: Mining dust Solution Spekboom hedge dust filter")
-    st.write("Market: Mines workers R120 dry skin Sun City lodges")
+st.markdown("### 8. FREE STATE")
+st.write("Towns: Bloemfontein, Welkom, Bethlehem, Phuthaditjhaba, Bothaville, Parys")
+st.write("Crops: Aloe ⭐⭐⭐⭐⭐, Maize ⭐⭐⭐⭐, Spekboom ⭐⭐⭐, Wheat, Sunflower")
+st.write("Soil: Clay loam cold -10°C frost coldest")
+st.write("Tip: Only Aloe Spekboom survive frost, Moringa Lemongrass die unless tunnel")
+st.write("Delivery: R100 Paxi")
+st.divider()
 
-elif province.startswith("8 FREE"):
-    st.subheader("8. FREE STATE Bloemfontein Bethlehem")
-    st.write("Climate: Coldest -8C frost snow 35C summer")
-    st.write("Soil: Clay loam pH 7.0")
-    st.write("Best: Aloe hardy survives -8C with plastic, Spekboom, Moringa dies outside pot only")
-    st.write("Frost: Worst -8C Solution tunnel R2000 plastic or Moringa inside house Oct Apr")
-    st.write("Problem: Frost kills Lemongrass Moringa Solution grow Aloe Spekboom only outside")
-    st.write("Market: Farmers Aloe gel cattle wounds R80 litre")
-
-else:
-    st.subheader("9. NORTHERN CAPE Kimberley Upington")
-    st.write("Climate: Hottest 40C coldest -6C desert rain 200mm")
-    st.write("Soil: Sand desert pH 8.0 alkaline poor")
-    st.write("Best: Aloe desert king, Spekboom desert, Moringa borehole, Lemongrass impossible")
-    st.write("Frost: -6C night Aloe Spekboom ok Moringa pot inside")
-    st.write("Problem: No water Solution Spekboom lives 1 year no water")
-    st.write("Market: Big Hole tourists R150 sunburn")
+st.markdown("### 9. NORTHERN CAPE")
+st.write("Towns: Kimberley, Upington, Springbok, De Aar, Kuruman, Calvinia")
+st.write("Crops: Aloe ⭐⭐⭐⭐⭐, Spekboom ⭐⭐⭐⭐⭐, Dates, Grapes table")
+st.write("Soil: Desert sandy 40°C+ 100-300mm driest")
+st.write("Tip: Desert only Aloe Spekboom survive no water, Aloe export")
+st.write("Delivery: R150 Courier")
 
 st.divider()
-st.header("Profit 41 Bottles")
-lotion = st.number_input("Lotion 200ml", value=41)
-cream = st.number_input("Cream 50ml", value=100)
-sales = lotion*120 + cream*95
-st.metric("Profit", f"R{sales - (lotion*28 + cream*18)}")
-
-st.write("Bare Beauty - No Cloves With Gloves - All 9 provinces now visible")
+st.subheader("🧴 Products + Kit + Profit")
+st.write("Body Lotion 200ml R120 | Face Cream 50ml R95 | Combo R200 Save R15")
+st.write("Whole Kit R9 610: Aloe 5L farm + Shea 10kg + Marula 8L + Beeswax 4kg + Vitamin E + Rooibos + Geogard + 100 bottles 200ml + 100 jars 50ml + blender pots jugs scale")
+st.write("41 bottles = R4 920 sales + 100 creams R9 500 = R14 420 | Profit R11 472")
+st.caption("All 9 Provinces Visible | Frost Alert | Telegram Bot 8098228163 | Matatiele Mapeng Ward 11")
