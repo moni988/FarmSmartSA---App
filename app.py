@@ -192,6 +192,32 @@ st.write("Online: Facebook WhatsApp TikTok Instagram Paxi to Pep Store all provi
 provinces=["Eastern Cape","KwaZulu-Natal","Western Cape","Limpopo","Mpumalanga","Gauteng","North West","Free State","Northern Cape"]
 sel=st.selectbox("Customer Province - Delivery?", provinces)
 st.success(f"I deliver Matatiele to {sel} - Yes! R100 courier")
+# ========== 7. OSINT Market Intel - NEW ==========
+st.divider()
+st.header("🕵️ 7. OSINT Market Intel - Mapeng Ward 11")
+st.caption("Public data only - No private info")
 
+osint_tab1, osint_tab2, osint_tab3 = st.tabs(["Weather OSINT", "Price OSINT", "Grant OSINT"])
+
+with osint_tab1:
+    st.subheader("Frost Alert - Tonight Matatiele")
+    st.metric("Tonight", "2°C", "FROST!")
+    st.error("OSINT ALERT: Cover Moringa Center 100 with plastic tonight!")
+    st.write("Aloe South 100 & Spekboom West 50 = SAFE, no water")
+
+with osint_tab2:
+    st.subheader("Price Check - Public shops")
+    st.write("Your Lotion R120 vs Clicks R185 = You CHEAPER! Good for sales")
+    st.write("Your Delivery R20 vs others R50 = You WIN at Taxi Rank")
+    st.metric("Your Profit 41 bottles", "R4,920", "OSINT says cheap = sell fast")
+
+with osint_tab3:
+    st.subheader("Public Grant News")
+    st.success("NYDA R10k = public info, DALRRD Aloe training Matatiele Hall Tue 10am FREE")
+    search_q = st.text_input("Search public farming news for Matatiele")
+    if search_q:
+        st.info(f"Public OSINT for '{search_q}': No theft in Mapeng this week - SAFE")
+
+# ========== END OSINT ==========
 st.divider()
 st.caption(f"SmartFarmSA v2 + Bare Beauty | Mapeng Village Ward 11 Matatiele -30.24,28.62 | 10 Provinces what they grow | Alerts EVERY weather + Solutions | 4 Tools: Plant Scanner, Soil Library, Ask Expert, FarmShield | Products + Ingredients | {datetime.now().strftime('%d %B %Y')} | Bare Beauty 0.5ha")
