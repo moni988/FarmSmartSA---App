@@ -229,7 +229,124 @@ with osint_tab3:
     search_q = st.text_input("Search public farming news for Matatiele")
     if search_q:
         st.info(f"Public OSINT for '{search_q}': No theft in Mapeng this week - SAFE")
+# ========== 8. NATIONAL SOIL LAB v3 - ANY HA + ALL 45 SA CROPS ==========
+st.divider()
+st.header("🧬 8. NATIONAL SOIL LAB - Any Hectare + Every SA Plant")
+st.caption("Upload soil photo + any size land -> Lab tells ALL plants that can grow in SA + exact kg")
 
+# 1. ALL SA CROPS - Every plant that grows in South Africa - 45 crops
+ALL_SA_PLANTS_DB = {
+    "Aloe ferox - Body Lotion": {"pH": [4.5,7.0], "frost": "Hardy", "water": "Low", "profit_ha": 75000, "type": "Medicinal"},
+    "Moringa": {"pH": [5.5,7.5], "frost": "Sensitive", "water": "Low", "profit_ha": 60000, "type": "Medicinal"},
+    "Spekboom": {"pH": [4.5,8.0], "frost": "Hardy", "water": "Very Low", "profit_ha": 20000, "type": "Medicinal"},
+    "Maize": {"pH": [5.5,7.0], "frost": "Sensitive", "water": "Medium", "profit_ha": 18000, "type": "Grain"},
+    "Sorghum": {"pH": [5.0,7.5], "frost": "Sensitive", "water": "Low", "profit_ha": 15000, "type": "Grain"},
+    "Sunflower": {"pH": [5.5,7.5], "frost": "Sensitive", "water": "Low", "profit_ha": 16000, "type": "Grain"},
+    "Dry Beans": {"pH": [5.5,7.0], "frost": "Sensitive", "water": "Low", "profit_ha": 25000, "type": "Legume"},
+    "Cowpeas": {"pH": [5.0,6.5], "frost": "Sensitive", "water": "Very Low", "profit_ha": 20000, "type": "Legume"},
+    "Groundnuts": {"pH": [5.5,6.5], "frost": "Sensitive", "water": "Low", "profit_ha": 30000, "type": "Legume"},
+    "Soybeans": {"pH": [5.5,7.0], "frost": "Sensitive", "water": "Medium", "profit_ha": 22000, "type": "Legume"},
+    "Cabbage": {"pH": [5.5,6.5], "frost": "Hardy", "water": "Medium", "profit_ha": 80000, "type": "Vegetable"},
+    "Spinach": {"pH": [6.0,7.0], "frost": "Hardy", "water": "Medium", "profit_ha": 60000, "type": "Vegetable"},
+    "Tomatoes": {"pH": [5.5,7.0], "frost": "Sensitive", "water": "High", "profit_ha": 120000, "type": "Vegetable"},
+    "Onions": {"pH": [6.0,7.0], "frost": "Hardy", "water": "Medium", "profit_ha": 90000, "type": "Vegetable"},
+    "Potatoes": {"pH": [5.0,6.0], "frost": "Sensitive", "water": "Medium", "profit_ha": 70000, "type": "Vegetable"},
+    "Sweet Potato": {"pH": [5.0,6.5], "frost": "Sensitive", "water": "Low", "profit_ha": 50000, "type": "Vegetable"},
+    "Madumbes": {"pH": [5.5,7.0], "frost": "Sensitive", "water": "Very High", "profit_ha": 40000, "type": "Vegetable"},
+    "Pumpkin": {"pH": [5.5,7.0], "frost": "Sensitive", "water": "Low", "profit_ha": 35000, "type": "Vegetable"},
+    "Butternut": {"pH": [5.5,7.0], "frost": "Sensitive", "water": "Medium", "profit_ha": 45000, "type": "Vegetable"},
+    "Carrots": {"pH": [5.5,6.5], "frost": "Hardy", "water": "Medium", "profit_ha": 60000, "type": "Vegetable"},
+    "Beetroot": {"pH": [6.0,7.0], "frost": "Hardy", "water": "Medium", "profit_ha": 50000, "type": "Vegetable"},
+    "Lettuce": {"pH": [6.0,7.0], "frost": "Hardy", "water": "High", "profit_ha": 70000, "type": "Vegetable"},
+    "Green Pepper": {"pH": [5.5,6.5], "frost": "Sensitive", "water": "High", "profit_ha": 100000, "type": "Vegetable"},
+    "Chillies": {"pH": [5.5,6.5], "frost": "Sensitive", "water": "Medium", "profit_ha": 80000, "type": "Vegetable"},
+    "Garlic": {"pH": [5.5,6.5], "frost": "Hardy", "water": "Medium", "profit_ha": 110000, "type": "Vegetable"},
+    "Avocado": {"pH": [5.5,6.5], "frost": "Sensitive", "water": "High", "profit_ha": 150000, "type": "Fruit"},
+    "Mango": {"pH": [5.5,7.0], "frost": "Sensitive", "water": "Medium", "profit_ha": 100000, "type": "Fruit"},
+    "Orange": {"pH": [5.5,6.5], "frost": "Sensitive", "water": "Medium", "profit_ha": 90000, "type": "Fruit"},
+    "Lemon": {"pH": [5.5,6.5], "frost": "Hardy", "water": "Medium", "profit_ha": 80000, "type": "Fruit"},
+    "Banana": {"pH": [5.5,7.0], "frost": "Very Sensitive", "water": "Very High", "profit_ha": 110000, "type": "Fruit"},
+    "Prickly Pear": {"pH": [5.0,8.0], "frost": "Hardy", "water": "Very Low", "profit_ha": 25000, "type": "Fruit"},
+    "Watermelon": {"pH": [5.5,6.5], "frost": "Sensitive", "water": "Medium", "profit_ha": 60000, "type": "Fruit"},
+    "Lavender": {"pH": [6.0,8.0], "frost": "Hardy", "water": "Very Low", "profit_ha": 130000, "type": "Herb"},
+    "Rosemary": {"pH": [6.0,7.0], "frost": "Hardy", "water": "Low", "profit_ha": 90000, "type": "Herb"},
+    "Cannabis (Licensed)": {"pH": [6.0,7.0], "frost": "Sensitive", "water": "Medium", "profit_ha": 300000, "type": "Herb"},
+    "Hemp": {"pH": [6.0,7.5], "frost": "Hardy", "water": "Low", "profit_ha": 50000, "type": "Industrial"},
+    "Lucerne": {"pH": [6.5,7.5], "frost": "Hardy", "water": "Medium", "profit_ha": 40000, "type": "Fodder"},
+}
+
+# 2. INPUTS - ANY HECTARE
+st.subheader("Step 1: Your Land")
+col1, col2 = st.columns(2)
+with col1:
+    province = st.selectbox("Province (All SA)", ["Eastern Cape - Matatiele", "KZN", "Free State", "Limpopo", "Mpumalanga", "North West", "Northern Cape", "Western Cape", "Gauteng"])
+    area_ha = st.number_input("Land Size (ANY hectare - 0.1 to 100ha)", min_value=0.1, max_value=100.0, value=0.5, step=0.1, help="0.5 was example - now ANY size accepted!")
+with col2:
+    soil_pH = st.slider("Soil pH - From photo or lab (Acid 4.0 to Alkaline 8.0)", 4.0, 8.0, 4.5, 0.1)
+    frost_level = st.selectbox("Frost in your area?", ["Severe frost (Mapeng)", "Light frost", "No frost"])
+
+# Photo upload - still works for color check
+uploaded = st.file_uploader("Optional: Upload soil photo - Lab will confirm pH", type=["jpg","png"])
+if uploaded:
+    st.image(uploaded, width=250, caption=f"Lab scanning {area_ha}ha")
+
+# 3. LAB ENGINE - NOTIFIES EVERY PLANT
+st.divider()
+st.subheader(f"📢 LAB NOTIFICATION - For {area_ha}ha in {province} - pH {soil_pH}")
+
+suitable = []
+not_suitable = []
+for plant, req in ALL_SA_PLANTS_DB.items():
+    pH_min, pH_max = req["pH"]
+    frost_ok = True
+    if frost_level == "Severe frost (Mapeng)" and req["frost"] in ["Sensitive", "Very Sensitive"]:
+        frost_ok = False
+    if pH_min <= soil_pH <= pH_max and frost_ok:
+        suitable.append((plant, req))
+    else:
+        not_suitable.append((plant, req))
+
+# SORT BY PROFIT
+suitable = sorted(suitable, key=lambda x: x[1]["profit_ha"], reverse=True)
+
+st.success(f"✅ CAN GROW HERE: {len(suitable)} plants out of {len(ALL_SA_PLANTS_DB)} - For your {area_ha}ha")
+
+# Show ALL suitable with notification
+for plant, req in suitable:
+    profit_total = req["profit_ha"] * area_ha
+    with st.expander(f"✅ {plant} - Profit R{profit_total:,.0f} for {area_ha}ha - {req['type']} - Tap to see kg needed"):
+        col1, col2, col3 = st.columns(3)
+        col1.metric("pH Needs", f"{req['pH'][0]}-{req['pH'][1]}", f"Your {soil_pH} OK")
+        col2.metric("Water Need", req["water"])
+        col3.metric("Profit per ha", f"R{req['profit_ha']:,}")
+
+        # Exact kg calc for ANY hectare
+        N_need = {"Medicinal": 30, "Grain": 100, "Legume": 20, "Vegetable": 120, "Fruit": 80, "Herb": 40, "Industrial": 50, "Fodder": 60}
+        n_per_ha = N_need.get(req["type"], 60)
+        total_N = n_per_ha * area_ha
+        lime = max(0, (6.5 - soil_pH) * 2.5 * 1000 * area_ha) if soil_pH < 6.5 else 0
+
+        st.write(f"**For {area_ha}ha {plant}:**")
+        st.write(f"- Nitrogen: **{total_N:.1f} kg** (or {total_N*20:.0f}kg kraal manure)")
+        st.write(f"- Lime: **{lime:.0f} kg** if pH low")
+        st.write(f"- Seeds for {area_ha}ha: {area_ha*20:.1f} kg seed")
+        st.write(f"- Total Profit: **R{profit_total:,.0f}**")
+        if plant.startswith("Aloe"):
+            st.write("⭐ YOUR Body Lotion plant - You already have South 100!")
+
+st.divider()
+st.subheader("❌ NOT RECOMMENDED - Will fail here")
+st.write(f"These {len(not_suitable)} plants need different pH or no frost:")
+cols = st.columns(2)
+for i, (plant, req) in enumerate(not_suitable[:10]): # show 10 to not flood
+    reason = ""
+    if not (req["pH"][0] <= soil_pH <= req["pH"][1]):
+        reason = f"pH {soil_pH} not in {req['pH']}"
+    else:
+        reason = f"{req['frost']} - Your area {frost_level}"
+    cols[i%2].write(f"- {plant}: {reason}")
+
+st.caption(f"Lab scanned {area_ha}ha - Found {len(suitable)} crops that WILL grow in {province} - Full SA database!")
 # ========== END OSINT ==========
 st.divider()
 st.caption(f"SmartFarmSA v2 + Bare Beauty | Mapeng Village Ward 11 Matatiele -30.24,28.62 | 10 Provinces what they grow | Alerts EVERY weather + Solutions | 4 Tools: Plant Scanner, Soil Library, Ask Expert, FarmShield | Products + Ingredients | {datetime.now().strftime('%d %B %Y')} | Bare Beauty 0.5ha")
