@@ -197,10 +197,9 @@ st.divider()
 st.header("🕵️ 7. OSINT Market Intel - Mapeng Ward 11")
 st.caption("Public data only - No private info")
 
-osint_tab1, osint_tab2, osint_tab3 = st.tabs(["Weather OSINT", "Price OSINT", "Grant OSINT"])
-    st.subheader("LIVE Weather - Mapeng")
-    try:
-    with osint_tab1:
+osint_tab1, osint_tab2, osint_tab3 = st.tabs(["Weather OSINT", "Price Check", "Grant News"])
+
+with osint_tab1:
     st.subheader("LIVE Weather - Mapeng")
     try:
         url = "https://api.open-meteo.com/v1/forecast?latitude=-30.24&longitude=28.62&current=temperature_2m&daily=temperature_2m_min&timezone=Africa/Johannesburg"
@@ -210,18 +209,19 @@ osint_tab1, osint_tab2, osint_tab3 = st.tabs(["Weather OSINT", "Price OSINT", "G
         st.metric(f"NOW in Mapeng", f"{temp_now}°C")
         st.metric(f"Tonight MIN", f"{min_tonight}°C")
         if min_tonight < 3:
-            st.error(f"LIVE ALERT: {min_tonight}°C! Cover Moringa 100!")
+            st.error(f"LIVE ALERT: {min_tonight}°C! Cover Moringa Center 100!")
         else:
             st.success(f"Tonight {min_tonight}°C - SAFE")
     except:
         st.metric("Tonight", "2°C", "FROST!")
-
+        st.error("Cover Moringa Center 100 - Check weather!")
+        st.write("Aloe South 100 & Spekboom West 50 = SAFE - Frost hardy")
 
 with osint_tab2:
     st.subheader("Price Check - Public shops")
-    st.write("Your Lotion R120 vs Clicks R185 = You CHEAPER! Good for sales")
-    st.write("Your Delivery R20 vs others R50 = You WIN at Taxi Rank")
-    st.metric("Your Profit 41 bottles", "R4,920", "OSINT says cheap = sell fast")
+    st.write("Your Lotion R120 vs Clicks R185 = You CHEAPER! Good OSINT")
+    st.write("Your Delivery R20 vs others R50 = You WIN OSINT")
+    st.metric("Your Profit 41 bottles", "R4,920", "OSINT good")
 
 with osint_tab3:
     st.subheader("Public Grant News")
