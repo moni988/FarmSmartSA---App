@@ -7,72 +7,52 @@ st.set_page_config(page_title="SmartFarmSA Bare Beauty Mapeng Ward 11 Matatiele"
 st.title("🌿 SmartFarmSA + Bare Beauty - Mapeng Ward 11 Matatiele")
 st.markdown("**HOME: Mapeng Village Ward 11, Matatiele EC -30.24, 28.62 | 0.5ha Bare Beauty Farm near Mapfontein JSS**")
 
-# ========== ALL 10 PROVINCES - EACH WHAT THEY GROW ==========
+# ===# ALL CROPS + INGREDIENTS - WORKS FOR EVERY PROVINCE
 PROVINCE_CROPS = {
-    "Mapeng Village Ward 11 - Matatiele (HOME)": {
-        "loc": "Mapeng Village Ward 11 Matatiele EC",
-        "climate": "Temperate 600-800mm Frost Winter",
-        "lat": -30.24, "lon": 28.62167,
-        "soil": "Degraded donga clay loam Mapfontein JSS - fix with Spekboom",
-        "grow": ["Spinach", "Maize", "Cabbage", "Potatoes", "Beans", "Aloe Ferox", "Spekboom", "Lemongrass"]
-    },
-    "Eastern Cape": {
-        "loc": "Mthatha, Gqeberha, Matatiele",
-        "climate": "Temperate 500-800mm",
-        "lat": -32.97, "lon": 27.87,
-        "soil": "Clay loam",
-        "grow": ["Aloe Ferox", "Maize", "Cabbage", "Spinach", "Potatoes", "Beans"]
-    },
-    "KwaZulu-Natal": {
-        "loc": "Durban, Pietermaritzburg",
-        "climate": "Subtropical 800-1200mm",
-        "lat": -29.85, "lon": 31.02,
-        "soil": "Sandy loam",
-        "grow": ["Sugarcane", "Bananas", "Maize", "Moringa", "Amadumbe", "Sweet Potatoes"]
-    },
-    "Limpopo": {
-        "loc": "Polokwane, Tzaneen",
-        "climate": "Hot semi-arid 35C+",
-        "lat": -23.9, "lon": 29.45,
-        "soil": "Loamy sand",
-        "grow": ["Mangoes", "Moringa", "Groundnuts", "Cowpeas", "Maize", "Tomatoes", "Avocado"]
-    },
-    "Gauteng": {
-        "loc": "Johannesburg, Pretoria",
-        "climate": "Highveld 600-700mm",
-        "lat": -26.20, "lon": 28.04,
-        "soil": "Loam",
-        "grow": ["Spinach Fast market Jozi", "Tomatoes", "Maize", "Cabbage", "Carrots"]
-    },
-    "Western Cape": {
-        "loc": "Cape Town, Stellenbosch",
-        "climate": "Mediterranean winter rain",
-        "lat": -33.92, "lon": 18.42,
-        "soil": "Sandy limestone",
-        "grow": ["Grapes Wine", "Olives Oil", "Spekboom Waterwise", "Wheat Winter", "Rooibos Tea"]
-    },
-    "Free State": {
-        "loc": "Bloemfontein, Bethlehem",
-        "climate": "Semi-arid 400-600mm cold",
-        "lat": -29.08, "lon": 26.15,
-        "soil": "Clay",
-        "grow": ["Maize Biggest SA", "Wheat Winter", "Sunflower Oil", "Potatoes", "Soybeans"]
-    },
-    "North West": {
-        "loc": "Mahikeng, Rustenburg",
-        "climate": "Semi-arid",
-        "lat": -25.86, "lon": 25.64,
-        "soil": "Sandy loam",
-        "grow": ["Maize", "Sunflower", "Groundnuts", "Sorghum", "Spinach"]
-    },
-    "Mpumalanga": {
-        "loc": "Mbombela, Witbank",
-        "climate": "Subtropical 700-1000mm",
-        "lat": -25.47, "lon": 30.96,
-        "soil": "Loam clay",
-        "grow": ["Maize", "Avocado", "Macadamia Nuts", "Sugarcane", "Potatoes", "Spinach"]
-    }
+    "Mapeng Village Ward 11 - Matatiele (HOME)": ["Spinach", "Maize", "Cabbage", "Potatoes", "Beans", "Aloe Ferox", "Spekboom", "Lemongrass", "Moringa"],
+    "Eastern Cape": ["Spinach", "Maize", "Cabbage", "Aloe Ferox", "Spekboom", "Potatoes"],
+    "KwaZulu-Natal": ["Sugarcane", "Bananas", "Maize", "Moringa", "Amadumbe", "Sweet Potatoes", "Spinach"],
+    "Limpopo": ["Mangoes", "Avocado", "Moringa", "Groundnuts", "Cowpeas", "Tomatoes", "Maize"],
+    "Gauteng": ["Spinach", "Tomatoes", "Maize", "Cabbage", "Carrots"],
+    "Western Cape": ["Grapes", "Olives", "Spekboom", "Wheat", "Rooibos"],
+    "Free State": ["Maize", "Wheat", "Sunflower", "Potatoes", "Soybeans"],
+    "North West": ["Maize", "Sunflower", "Groundnuts", "Sorghum"],
+    "Mpumalanga": ["Maize", "Avocado", "Macadamia", "Sugarcane", "Potatoes"]
 }
+
+# EVERY PLANT + INGREDIENT ADVICE - Add your own here anytime
+CROP_LIBRARY = {
+    # Food crops
+    "Spinach": "Ingredient: Morogo. Healthy green thick. Yellow=overwater. Add kraal manure.",
+    "Maize": "Ingredient: Maize meal, Pap. Needs rain. Yellow leaves=need nitrogen.",
+    "Cabbage": "Ingredient: Stew. Needs water every 2 days. Watch for caterpillars.",
+    "Potatoes": "Ingredient: Fries, stew. Needs loose soil.",
+    "Beans": "Ingredient: Protein stew. Fixes soil nitrogen.",
+    "Tomatoes": "Ingredient: Sauce. Needs sun, water.",
+    "Carrots": "Ingredient: Salad. Needs soft soil.",
+    "Sweet Potatoes": "Ingredient: Food. Grows in sand.",
+    "Amadumbe": "Ingredient: Taro food. Loves wet KZN soil.",
+    # Cash crops
+    "Aloe Ferox": "South 100m Cash border. No water. Sell sap in Mthatha R15/kg.",
+    "Lemongrass": "East 70m Oil windbreak. Oil = cash. Boil for tea.",
+    "Spekboom": "West North 50m. Fixes donga, goat fodder, carbon credits.",
+    "Moringa": "Center 100. Leaves=superfood powder. Ingredient: Tea, soup.",
+    "Sugarcane": "KZN cash. Needs lots water.",
+    "Bananas": "KZN food + cash. Needs water.",
+    "Mangoes": "Limpopo cash Dec-Jan. No frost.",
+    "Avocado": "Export cash. Needs water.",
+    "Grapes": "WC wine cash. Winter rain only.",
+    "Macadamia": "Mpumalanga nut cash R80/kg.",
+    "Sunflower": "Oil cash. Seeds ingredient.",
+    "Groundnuts": "Peanut butter ingredient. Fixes soil.",
+    "Wheat": "Bread ingredient.",
+    "Rooibos": "Tea ingredient cash.",
+}
+
+# ONE SCANNER FOR EVERYTHING
+selected_plant = st.selectbox("Plant what they grow? Choose crop/ingredient:", PROVINCE_CROPS[province])
+info = CROP_LIBRARY.get(selected_plant, f"{selected_plant} - Healthy green thick good. Local food/cash for {province}.")
+st.success(f"Scanner: {selected_plant} - {info}")
                                                                                                                     
 
 selected = st.selectbox("📍 CHOOSE LOCATION - 10 PROVINCES", list(PROVINCE_CROPS.keys()), index=0)
