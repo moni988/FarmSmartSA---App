@@ -9,17 +9,71 @@ st.markdown("**HOME: Mapeng Village Ward 11, Matatiele EC -30.24, 28.62 | 0.5ha 
 
 # ========== ALL 10 PROVINCES - EACH WHAT THEY GROW ==========
 PROVINCE_CROPS = {
-    "Mapeng Village Ward 11 - Matatiele (HOME)": {"loc": "Mapeng Village Ward 11 Matatiele EC -30.24, 28.62", "climate": "Temperate 600-800mm Frost Winter", "lat": -30.24, "lon": 28.62167, "soil": "Degraded donga clay loam Mapfontein JSS", "grow": ["Aloe Ferox South 100m Cash no water", "Lemongrass East 70m Oil windbreak 100 buckets compost", "Moringa Center 100 Food superfood 200 buckets compost frost kills", "Spekboom West North 50 Fodder carbon fixes donga NO water", "Maize Drought Food", "Cabbage Food winter", "Spinach Fast 30 days", "Potatoes Food", "Beans Protein"]},
-    "Eastern Cape": {"loc": "Mthatha, Gqeberha", "climate": "Temperate 500-800mm", "lat": -32.97, "lon": 27.87, "soil": "Clay loam", "grow": ["Aloe Ferox Wild free", "Maize Staple", "Cabbage Winter", "Spekboom Fodder", "Lemongrass Oil", "Potatoes", "Beans"]},
-    "KwaZulu-Natal": {"loc": "Durban, Pietermaritzburg", "climate": "Subtropical 800-1200mm", "lat": -29.85, "lon": 31.02, "soil": "Sandy loam", "grow": ["Sugarcane Cash 12mo", "Bananas Fruit", "Maize Food", "Moringa Superfood", "Amadumbe Traditional", "Sweet Potatoes"]},
-    "Limpopo": {"loc": "Polokwane, Tzaneen", "climate": "Hot semi-arid 35°C+", "lat": -23.9, "lon": 29.45, "soil": "Loamy sand", "grow": ["Mangoes Export", "Moringa Drought", "Groundnuts Protein", "Cowpeas Food", "Maize", "Tomatoes", "Avocado"]},
-    "Gauteng": {"loc": "Johannesburg, Pretoria", "climate": "Highveld 600-700mm", "lat": -26.20, "lon": 28.04, "soil": "Loam", "grow": ["Spinach Fast market Jozi", "Tomatoes High price", "Maize Backyard", "Cabbage", "Carrots", "Lettuce", "Herbs"]},
-    "Western Cape": {"loc": "Cape Town, Stellenbosch", "climate": "Mediterranean winter rain", "lat": -33.92, "lon": 18.42, "soil": "Sandy limestone", "grow": ["Grapes Wine", "Olives Oil", "Spekboom Waterwise", "Wheat Winter", "Apples Ceres", "Rooibos Tea"]},
-    "Free State": {"loc": "Bloemfontein, Bethlehem", "climate": "Semi-arid 400-600mm cold", "lat": -29.08, "lon": 26.15, "soil": "Clay", "grow": ["Maize Biggest SA", "Wheat Winter", "Sunflower Oil", "Sorghum Drought", "Potatoes", "Soybeans"]},
-    "North West": {"loc": "Mahikeng, Rustenburg", "climate": "Semi-arid 300-600mm", "lat": -25.86, "lon": 25.64, "soil": "Sandy loam", "grow": ["Maize Staple", "Sunflower Oil", "Groundnuts", "Moringa Drought", "Cowpeas", "Spekboom Fodder", "Watermelon"]},
-    "Mpumalanga": {"loc": "Mbombela, Witbank", "climate": "Subtropical 600-1000mm", "lat": -25.47, "lon": 30.96, "soil": "Red loam", "grow": ["Maize Food", "Avocado Export $$$", "Macadamia Cash $$$", "Moringa Superfood", "Lemongrass Oil", "Sugarcane Cash"]},
-    "Northern Cape": {"loc": "Kimberley, Upington", "climate": "Arid 200-400mm 40°C", "lat": -28.72, "lon": 24.76, "soil": "Desert sand", "grow": ["Spekboom Only survives", "Aloe Ferox Wild cash", "Dates Desert fruit", "Grapes Orange River irrigated", "Wheat irrigated", "Pecans Nuts"]},
+    "Mapeng Village Ward 11 - Matatiele (HOME)": {
+        "loc": "Mapeng Village Ward 11 Matatiele EC",
+        "climate": "Temperate 600-800mm Frost Winter",
+        "lat": -30.24, "lon": 28.62167,
+        "soil": "Degraded donga clay loam Mapfontein JSS - fix with Spekboom",
+        "grow": ["Spinach", "Maize", "Cabbage", "Potatoes", "Beans", "Aloe Ferox", "Spekboom", "Lemongrass"]
+    },
+    "Eastern Cape": {
+        "loc": "Mthatha, Gqeberha, Matatiele",
+        "climate": "Temperate 500-800mm",
+        "lat": -32.97, "lon": 27.87,
+        "soil": "Clay loam",
+        "grow": ["Aloe Ferox", "Maize", "Cabbage", "Spinach", "Potatoes", "Beans"]
+    },
+    "KwaZulu-Natal": {
+        "loc": "Durban, Pietermaritzburg",
+        "climate": "Subtropical 800-1200mm",
+        "lat": -29.85, "lon": 31.02,
+        "soil": "Sandy loam",
+        "grow": ["Sugarcane", "Bananas", "Maize", "Moringa", "Amadumbe", "Sweet Potatoes"]
+    },
+    "Limpopo": {
+        "loc": "Polokwane, Tzaneen",
+        "climate": "Hot semi-arid 35C+",
+        "lat": -23.9, "lon": 29.45,
+        "soil": "Loamy sand",
+        "grow": ["Mangoes", "Moringa", "Groundnuts", "Cowpeas", "Maize", "Tomatoes", "Avocado"]
+    },
+    "Gauteng": {
+        "loc": "Johannesburg, Pretoria",
+        "climate": "Highveld 600-700mm",
+        "lat": -26.20, "lon": 28.04,
+        "soil": "Loam",
+        "grow": ["Spinach Fast market Jozi", "Tomatoes", "Maize", "Cabbage", "Carrots"]
+    },
+    "Western Cape": {
+        "loc": "Cape Town, Stellenbosch",
+        "climate": "Mediterranean winter rain",
+        "lat": -33.92, "lon": 18.42,
+        "soil": "Sandy limestone",
+        "grow": ["Grapes Wine", "Olives Oil", "Spekboom Waterwise", "Wheat Winter", "Rooibos Tea"]
+    },
+    "Free State": {
+        "loc": "Bloemfontein, Bethlehem",
+        "climate": "Semi-arid 400-600mm cold",
+        "lat": -29.08, "lon": 26.15,
+        "soil": "Clay",
+        "grow": ["Maize Biggest SA", "Wheat Winter", "Sunflower Oil", "Potatoes", "Soybeans"]
+    },
+    "North West": {
+        "loc": "Mahikeng, Rustenburg",
+        "climate": "Semi-arid",
+        "lat": -25.86, "lon": 25.64,
+        "soil": "Sandy loam",
+        "grow": ["Maize", "Sunflower", "Groundnuts", "Sorghum", "Spinach"]
+    },
+    "Mpumalanga": {
+        "loc": "Mbombela, Witbank",
+        "climate": "Subtropical 700-1000mm",
+        "lat": -25.47, "lon": 30.96,
+        "soil": "Loam clay",
+        "grow": ["Maize", "Avocado", "Macadamia Nuts", "Sugarcane", "Potatoes", "Spinach"]
+    }
 }
+                                                                                                                    
 
 selected = st.selectbox("📍 CHOOSE LOCATION - 10 PROVINCES", list(PROVINCE_CROPS.keys()), index=0)
 data = PROVINCE_CROPS[selected]
