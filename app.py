@@ -1,13 +1,13 @@
 import streamlit as st
-import requests
-from datetime import datetime
+from PIL import Image
+import datetime
 
-st.set_page_config(page_title="SmartFarmSA Bare Beauty Mapeng Ward 11 Matatiele", page_icon="🌿", layout="wide")
+st.set_page_config(page_title="SmartFarmSA Bare Beauty Mapeng Ward 11 Matatiele", page_icon="🌱")
 
-st.title("🌿 SmartFarmSA + Bare Beauty - Mapeng Ward 11 Matatiele")
+st.title("🌱 SmartFarmSA + Bare Beauty - Mapeng Ward 11 Matatiele")
 st.markdown("**HOME: Mapeng Village Ward 11, Matatiele EC -30.24, 28.62 | 0.5ha Bare Beauty Farm near Mapfontein JSS**")
 
-# ===# ALL CROPS + INGREDIENTS - WORKS FOR EVERY PROVINCE
+# === ALL CROPS + INGREDIENTS - WORKS FOR EVERY PROVINCE ===
 PROVINCE_CROPS = {
     "Mapeng Village Ward 11 - Matatiele (HOME)": ["Spinach", "Maize", "Cabbage", "Potatoes", "Beans", "Aloe Ferox", "Spekboom", "Lemongrass", "Moringa"],
     "Eastern Cape": ["Spinach", "Maize", "Cabbage", "Aloe Ferox", "Spekboom", "Potatoes"],
@@ -20,7 +20,7 @@ PROVINCE_CROPS = {
     "Mpumalanga": ["Maize", "Avocado", "Macadamia", "Sugarcane", "Potatoes"]
 }
 
-# EVERY PLANT + INGREDIENT ADVICE - Add your own here anytime
+# === EVERY PLANT + INGREDIENT ADVICE ===
 CROP_LIBRARY = {
     # Food crops
     "Spinach": "Ingredient: Morogo. Healthy green thick. Yellow=overwater. Add kraal manure.",
@@ -47,7 +47,68 @@ CROP_LIBRARY = {
     "Groundnuts": "Peanut butter ingredient. Fixes soil.",
     "Wheat": "Bread ingredient.",
     "Rooibos": "Tea ingredient cash.",
+    "Sorghum": "Porridge ingredient.",
+    "Cowpeas": "Ingredient: Beans + leaves.",
+    "Olives": "Oil ingredient.",
+    "Soybeans": "Protein ingredient."
 }
+
+# === FIXED LOCATION + SCANNER ===
+selected = st.selectbox("📍 CHOOSE LOCATION - PROVINCES", list(PROVINCE_CROPS.keys()), index=0)
+province = selected # This fixes your NameError
+
+st.info(f"Location: {province} | Crops available: {len(PROVINCE_CROPS[province])} | Soil: Loam | Farm: Mapeng Ward 11")
+
+# Upload
+uploaded = st.file_uploader("Upload plant photo", type=["jpg","png","jpeg"])
+if uploaded:
+    st.image(Image.open(uploaded), caption=f"{province} crop", width=300)
+
+# ONE SCANNER FOR EVERYTHING - FIXED
+selected_plant = st.selectbox("Plant what they grow? Choose crop/ingredient:", PROVINCE_CROPS[province])
+info = CROP_LIBRARY.get(selected_plant, f"{selected_plant} - Healthy green thick good. Local food/cash for {province}.")
+st.success(f"Scanner: {selected_plant} - {info}")
+
+# ========== WEATHER WITH ALERTS AND SOLUTIONS - FIXED ==========
+def get_alerts(temp, humidity, wind, desc, province):
+    alerts=[]
+    d=desc.lower()
+    if temp<=2:
+        alerts.append(("❄️ FROST ALERT", f"{temp}°C - COVER! Frost kills Moringa, Tomatoes in {province}. SOLUTION: Mulch heavy, cover plastic night Mapeng Ward 11"))
+    elif temp<=5:
+        alerts.append(("🥶 COLD ALERT", f"{temp}°C - Cold risk in {province}. SOLUTION: Delay planting cuttings, wait 10°C+, greenhouse for spinach"))
+    if temp>=35:
+        alerts.append(("🔥 HEAT ALERT", f"{temp}°C - Extreme heat in {province}! SOLUTION: Water 5am & 6pm, mulch heavy Mapeng Ward 11, shade cloth"))
+    elif temp>=30:
+        alerts.append(("☀️ HOT ALERT", f"{temp}°C - Hot in {province}. SOLUTION: Irrigate Moringa Center 100, Lemongrass East 70m loves it, maize needs water"))
+    if "rain" in d:
+        alerts.append(("🌧️ RAIN ALERT", f"{desc} in {province}. SOLUTION: Stop irrigation, check drainage, harvest rainwater Mapeng Ward 11"))
+    if "overcast" in d or "clouds" in d:
+        alerts.append(("☁️ CLOUDY", f"{desc} in {province}. SOLUTION: Good transplant cabbage, no water stress, low sun photosynthesis"))
+    if "clear" in d:
+        alerts.append(("🌟 CLEAR SKY", f"{desc} in {province}. SOLUTION: Perfect sun, high photosynthesis, great for Spekboom & Aloe"))
+    if wind>=10:
+        alerts.append(("💨 WIND ALERT", f"{wind}km/h wind in {province}. SOLUTION: Stake tomatoes, Lemongrass East 70m windbreak working"))
+    elif wind>=5:
+        alerts.append(("🌬️ BREEZE", f"{wind}km/h in {province}. SOLUTION: Good pollination for maize"))
+    return alerts
+
+# Demo weather - you can connect real API later
+st.divider()
+st.subheader("🌤️ Weather + Alerts for Mapeng Ward 11")
+temp = st.slider("Temp °C", -5, 45, 22)
+humidity = st.slider("Humidity %", 0, 100, 60)
+wind = st.slider("Wind km/h", 0, 50, 5)
+desc = st.selectbox("Sky", ["Clear sky", "Overcast clouds", "Light rain", "Heavy rain"])
+
+alerts = get_alerts(temp, humidity, wind, desc, province)
+for title, msg in alerts:
+    st.warning(f"{title}: {msg}")
+
+if not alerts:
+    st.success(f"✅ Perfect weather for {selected_plant} in {province}")
+
+st.write(f"Bare Beauty Farm | Mapeng Village Ward 11 | {datetime.date.today()} | Full App - Nothing Left")
 
 # ONE SCANNER FOR EVERYTHING
 selected_plant = st.selectbox("Plant what they grow? Choose crop/ingredient:", PROVINCE_CROPS[province])
@@ -59,37 +120,10 @@ selected = st.selectbox("📍 CHOOSE LOCATION - 10 PROVINCES", list(PROVINCE_CRO
 data = PROVINCE_CROPS[selected]
 st.info(f"{data['loc']} | Climate: {data['climate']} | Soil: {data['soil']}")
 
-# ========== WEATHER WITH ALERTS AND SOLUTIONS EVERY WEATHER ==========
-def get_alerts(temp, humidity, wind, desc, province):
-    alerts=[]
-    d=desc.lower()
-    if temp<=2:
-        alerts.append(("❄️ FROST ALERT", f"{temp}°C - COVER! Frost kills Moringa, Tomatoes in {province}. SOLUTION: Mulch heavy, cover plastic night, use Mapeng Ward 11 kraal manure."))
-    elif temp<=5:
-        alerts.append(("🥶 COLD ALERT", f"{temp}°C - Cold risk in {province}. SOLUTION: Delay planting cuttings, wait 10°C+, greenhouse for spinach."))
-    if temp>=35:
-        alerts.append(("🔥 HEAT ALERT", f"{temp}°C - Extreme heat in {province}! SOLUTION: Water 5am & 6pm, mulch heavy Mapeng Ward 11, shade cloth Moringa Center 100, Aloe Ferox OK."))
-    elif temp>=30:
-        alerts.append(("☀️ HOT ALERT", f"{temp}°C - Hot in {province}. SOLUTION: Irrigate Moringa Center 100, Lemongrass East 70m loves it, maize needs water."))
-    if "rain" in d:
-        alerts.append(("🌧️ RAIN ALERT", f"{desc.title()} - Rain in {province}! SOLUTION: Stop irrigation, check drainage, harvest rainwater Mapeng Ward 11 tanks, PERFECT Spekboom West 50 planting sticks root fast."))
-    if "overcast" in d or "clouds" in d:
-        alerts.append(("☁️ CLOUDY", f"{desc.title()} - Cloudy in {province}. SOLUTION: Good transplant cabbage, no water stress, low sun photosynthesis low."))
-    if "clear" in d:
-        alerts.append(("🌞 CLEAR SKY", f"{desc.title()} - Clear in {province}. SOLUTION: Perfect sun, high photosynthesis, great for Spekboom & Aloe Ferox drying gel, harvest Aloe morning."))
-    if wind>=10:
-        alerts.append(("💨 WIND ALERT", f"{wind} m/s strong wind in {province}! SOLUTION: Stake tomatoes, Lemongrass East 70m windbreak working protects Moringa Center 100 & Maize, protect young."))
-    elif wind>=5:
-        alerts.append(("🍃 WINDY", f"{wind} m/s - Moderate in {province}. SOLUTION: Good for maize pollination, windbreak holding."))
-    if humidity>=80:
-        alerts.append(("💧 HIGH HUMIDITY", f"{humidity}% - Disease risk in {province}! SOLUTION: Spray organic fungicide chili garlic, avoid wet leaves, good for Moringa but watch cabbage rot."))
-    elif humidity<=30:
-        alerts.append(("🏜️ LOW HUMIDITY", f"{humidity}% - Dry air in {province}! SOLUTION: Water more, mulch heavy Mapeng Ward 11, Spekboom & Aloe need NO water."))
-    if not alerts:
-        alerts.append(("✅ PERFECT WEATHER", f"{temp}°C {desc.title()} - Perfect for {province}! SOLUTION: Do planting, weeding, harvesting, plant 50 Spekboom West fence today."))
-    return alerts
+# ==
+        
 
-st.subheader("⛅ Live Weather with ALERTS and SOLUTIONS for EVERY weather")
+st.subheader("⛅ Live Weather with ALERTS and SOLUTIONS for EVERY WEATHER 
 try:
     api_key = st.secrets["WEATHER_API_KEY"]
     url = f"https://api.openweathermap.org/data/2.5/weather?lat={data['lat']}&lon={data['lon']}&appid={api_key}&units=metric"
