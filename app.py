@@ -123,7 +123,7 @@ st.info(f"{data['loc']} | Climate: {data['climate']} | Soil: {data['soil']}")
 # ==
         
 
-st.subheader("⛅ Live Weather with ALERTS and SOLUTIONS for EVERY WEATHER 
+st.subheader("Live Weather with ALERTS and SOLUTIONS for EVERY WEATHER")
 try:
     api_key = st.secrets["WEATHER_API_KEY"]
     url = f"https://api.openweathermap.org/data/2.5/weather?lat={data['lat']}&lon={data['lon']}&appid={api_key}&units=metric"
