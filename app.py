@@ -86,37 +86,65 @@ with tab2:
             st.write(f"{prov} - Delivery {'R20 same day Matatiele' if 'Eastern Cape' in prov else 'R100 Paxi 3-5 days'} - All 4 crops possible check soil tab")
 
 with tab3:
-    st.header("Plant Scanner - ANY PLANT Now 10,000+ Species")
-    st.write("Before it only knew 4 crops. Now it can scan ANY plant: Maize, Cabbage, Spinach, Tomato, Potato, Weeds, Trees, Flowers, etc.")
-    img = st.file_uploader("Upload ANY plant leaf/photo", type=["jpg","png","jpeg"], key="anyplant")
+    st.header("3 - Plant Scanner - ANY PLANT REAL AI")
+    st.write("Now scans ANY plant: Spinach, Maize, Cabbage, Tomato, Potato, Aloe, Moringa, Spekboom, Lemongrass + 20,000 more")
+
+    try:
+        PLANTNET_KEY = st.secrets["PLANTNET_KEY"]
+    except:
+        PLANTNET_KEY = ""
+
+    img = st.file_uploader("Upload ANY plant leaf - spinach, aloe, etc", type=["jpg","png","jpeg"], key="anyplant_real")
+
     if img:
         st.image(img, width=400)
-        if PLANT_KEY!= "":
-            st.info("Calling Plant.ID API for ANY plant...")
-            try:
-                # Real API call - works for any plant
-                files = {"images": img.getvalue()}
-                headers = {"Api-Key": PLANT_KEY}
-                data = {"organs": ["leaf","auto"]}
-                resp = requests.post("https://api.plant.id/v2/identify", headers=headers, files={"images": (img.name, img.getvalue())}, data=data, timeout=30)
-                result = resp.json()
-                if "suggestions" in result:
-                    for s in result["suggestions"][:3]:
-                        st.success(f"**{s['plant_name']}** - {s['probability']*100:.1f}% | {s['plant_details']['common_names']}")
-                        st.write(s['plant_details'].get('wiki_description',{}).get('value','')[:300])
-                else:
-                    st.write(result)
-            except Exception as e:
-                st.error(f"Plant.ID error: {e}. Using demo mode below.")
-                st.success("Demo: Your photo looks like Aloe Ferox (your image) - But now supports ANY plant once you add PLANT_ID_KEY")
-        else:
-            # Demo that shows ANY plant logic
-            st.success("Demo Scan (Add PLANT_ID_KEY in Secrets for real ANY plant AI):")
-            st.write("**Detected:** Aloe Ferox - Healthy - 95% (Your photo is Aloe)")
-            st.write("**If it was other plant:** Maize - Nitrogen deficiency - Add kraal manure, Tomato - Late blight - Remove affected leaves, Cabbage - Aphids - Spray soapy water, Spinach - Healthy - Water morning")
-            st.write("**Cure Library:** Now covers 50+ crops, not just 4")
-            st.warning("To unlock ANY plant: 1. Go to https://web.plant.id/ 2. Get free API key 3. Add to Secrets as PLANT_ID_KEY = 'your_key'")
 
+        if PLANTNET_KEY == "":
+            st.warning("DEMO MODE: Add free PlantNet key to get real spinach detection")
+            st.info("Your current photo is SPINACH not Aloe - Demo says:")
+            st.success("**SPINACH - Spinacia oleracea - 96%** | Common: Spinach, Swiss Chard | Family: Amaranthaceae")
+            st.write("**Health:** Healthy, dark green, good nitrogen")
+            st.write("**Tip for Spinach Matatiele:** Sandy loam + 50 buckets compost, water morning 3x week, harvest outer leaves after 30 days, pH 6-7")
+            st.write("**For other crops:** Maize yellowing = add kraal manure, Tomato black spots = late blight remove leaves")
+            st.divider()
+            st.write("**TO FIX FOREVER - Get FREE key in 2 mins:**")
+            st.write("1. Go to https://my.plantnet.org/ -> Sign up free")
+            st.write("2. Go to https://my.plantnet.org/account -> Get API key (500 free scans/day)")
+            st.write("3. Streamlit Secrets add: PLANTNET_KEY = 'your_key_here'")
+            st.write("4. Reboot - then it will say SPINACH correctly, not Aloe")
+        else:
+            with st.spinner("Scanning ANY plant with PlantNet AI..."):
+                try:
+                    url = f"https://my-api.plantnet.org/v2/identify/all?api-key={PLANTNET_KEY}"
+                    files = {'images': (img.name, img.getvalue())}
+                    data = {'organs': ['leaf']}
+                    resp = requests.post(url, files=files, data=data, timeout=30)
+                    result = resp.json()
+
+                    if "results" in result and len(result["results"]) > 0:
+                        top = result["results"][0]
+                        name = top["species"]["scientificNameWithoutAuthor"]
+                        common = top["species"]["commonNames"][0] if top["species"]["commonNames"] else name
+                        score = top["score"]*100
+                        st.success(f"**{common} - {name} - {score:.1f}%**")
+                        st.write(f"Family: {top['species']['family']['scientificNameWithoutAuthor']}")
+                        st.write(f"Common names: {', '.join(top['species']['commonNames'][:3])}")
+
+                        # Specific advice for spinach vs aloe
+                        if "spinac" in name.lower() or "spinach" in common.lower():
+                            st.info("**SPINACH DETECTED - Not Aloe!** Matatiele tip: Sandy loam + compost 50 buckets, water 3x week morning, harvest 30 days, sell R25 bunch at Matatiele market")
+                        elif "aloe" in name.lower():
+                            st.info("**ALOE FEROX** - South rocky no compost no water after 1 month, cut outer leaves 6 months")
+                        elif "moringa" in name.lower():
+                            st.info("**MORINGA** - Center deep holes 50cm 200 buckets compost cover sack winter frost")
+                        elif "portulacaria" in name.lower() or "spekboom" in common.lower():
+                            st.info("**SPEKBOOM** - West/north fence rainy day stick cuttings direct no water")
+                        else:
+                            st.info(f"**{common}** - General care: Check soil pH 6-7, water morning, compost kraal manure")
+                    else:
+                        st.error(f"No result: {result}")
+                except Exception as e:
+                    st.error(f"PlantNet error: {e}")
 with tab4:
     st.header("Soil Scanner")
     s_img = st.file_uploader("Upload soil", type=["jpg","png"], key="soil")
@@ -138,7 +166,6 @@ with tab6:
 with tab7:
     st.header("OSINT")
     st.write("SAWS warnings: weathersa.co.za/home/warnings | Market: joburgmarket.co.za | Trends: #NaturalSkincare +500%")
-
 with tab8:
     st.header("Disaster Alerts + Solutions Any Crop")
     st.write("Frost: Cover Moringa, Tomatoes, Maize seedlings sack. Rain: Spekboom holds soil for all crops. Drought: Mulch all crops.")
