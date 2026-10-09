@@ -233,8 +233,46 @@ with tab4:
         s_type = st.selectbox("Correct if wrong:", ["Degraded / Donga", "Sandy", "Clay", "Loam", "Sandy Loam"], index=0 if "Degrad" in pred_type else 1)
 
 with tab5:
-    st.header("Soil Library")
-    st.write("Matatiele Sandy Loam pH 6-7 best all crops. Degraded pH 5.5-6.5 only pioneers. Red Loam KZN pH 6-6.5 humid fast. Clay Highveld pH 6.5-7.5 frost. Desert pH 7-8 no water.")
+    st.header("Soil Library - 12 SA Soils")
+    st.caption("Source: ARC - Agricultural Research Council Soil Maps | Institute for Soil, Climate & Water")
+    
+    # --- 12 SA Soil Types Database ---
+    soils = [
+        {"name": "Sandy", "form": "Namib / Fernwood", "color": "#E8D5B5", "province": "Western Cape, Northern Cape, KZN Coast", "ph": "5.5 - 7.0", "water": "Low - Drains fast, water daily", "crops": "Carrots, Groundnuts, Watermelon, Sweet Potato", "desc": "Light, loose. Easy to work but needs lots of compost."},
+        {"name": "Loam", "form": "Oakleaf (ideal)", "color": "#8B5A2B", "province": "All provinces - Best farming soil", "ph": "6.0 - 7.5", "water": "Medium - Balanced", "crops": "Maize, Vegetables, Sunflower, All crops", "desc": "Best soil. Matatiele Sandy Loam is this type."},
+        {"name": "Clay", "form": "Arcadia / Rensburg", "color": "#5D4037", "province": "Free State, Gauteng, Limpopo", "ph": "6.0 - 8.5", "water": "High - Holds water long, water weekly", "crops": "Rice, Sugarcane, Wheat, Cotton", "desc": "Heavy, sticky. Add lime + compost to break it."},
+        {"name": "Hutton", "form": "Hutton - Red apedal", "color": "#A0522D", "province": "Eastern Cape, KZN, Mpumalanga, Limpopo", "ph": "5.0 - 6.5", "water": "Medium-Low", "crops": "Maize, Citrus, Avocado, Mango, Soybean", "desc": "Red soil, well-drained, rich in iron. SA's best crop soil."},
+        {"name": "Clovelly", "form": "Clovelly - Yellow brown", "color": "#CD853F", "province": "Eastern Cape (Matatiele), Western Cape, North West", "ph": "5.0 - 6.0", "water": "Medium", "crops": "Potatoes, Apples, Maize, Fynbos", "desc": "Yellow soil, acidic. Needs lime. Very common in EC."},
+        {"name": "Avalon", "form": "Avalon", "color": "#D2B48C", "province": "Eastern Cape, KZN, Free State", "ph": "5.0 - 6.0", "water": "High - Waterlogged in winter", "crops": "Pasture, Maize (with drainage), Cabbage", "desc": "Grey mottled subsoil, needs drainage furrows."},
+        {"name": "Westleigh", "form": "Westleigh", "color": "#BC9A6A", "province": "Gauteng, Mpumalanga Highveld", "ph": "4.5 - 5.5", "water": "Medium-High", "crops": "Maize, Pasture, Eucalyptus", "desc": "Soft plinthic, common on Highveld."},
+        {"name": "Bainsvlei", "form": "Bainsvlei", "color": "#8D6E63", "province": "Free State, North West", "ph": "5.5 - 7.0", "water": "Medium", "crops": "Maize, Wheat, Sunflower", "desc": "Red with soft plinthic, good for grains."},
+        {"name": "Swartland", "form": "Swartland", "color": "#6D4C41", "province": "Western Cape (Swartland region)", "ph": "5.5 - 7.5", "water": "Medium", "crops": "Wheat, Barley, Canola, Grapes", "desc": "Duplex - Sandy on top, clay below. WC wheat belt."},
+        {"name": "Mispah", "form": "Mispah - Shallow rocky", "color": "#9E9E9E", "province": "Northern Cape, Limpopo, Karoo", "ph": "6.0 - 7.5", "water": "Very Low", "crops": "Spekboom, Aloe Ferox, Goat pasture, Moringa", "desc": "Shallow on rock. Best for your degraded/donga rehab project."},
+        {"name": "Glenrosa", "form": "Glenrosa", "color": "#A1887F", "province": "Eastern Cape, KZN mountains", "ph": "5.0 - 6.5", "water": "Low", "crops": "Forestry, Pasture, Spekboom", "desc": "Shallow, rocky but better than Mispah. Needs compost."},
+        {"name": "Katspruit", "form": "Katspruit - Wetland", "color": "#4E342E", "province": "KZN, Eastern Cape wetlands", "ph": "4.0 - 6.0", "water": "Very High - Always wet", "crops": "Rice, Taro (Amadumbe), Spinach, Reeds", "desc": "Black clay wetland soil, protect don't drain."},
+    ]
+
+    # Search
+    search = st.text_input("Search soil: e.g. Hutton, Clay, Matatiele")
+    filtered = [s for s in soils if search.lower() in s["name"].lower() or search.lower() in s["province"].lower()] if search else soils
+
+    # Display as 3-column cards
+    cols = st.columns(3)
+    for i, soil in enumerate(filtered):
+        with cols[i % 3]:
+            with st.container(border=True):
+                st.markdown(f"**{soil['name']}** ({soil['form']})")
+                # Colour box as picture
+                st.color_picker(soil['name'], soil['color'], key=f"col_{soil['name']}", disabled=True, label_visibility="collapsed")
+                st.write(f"📍 **Where:** {soil['province']}")
+                st.write(f"🧪 **pH:** {soil['ph']}")
+                st.write(f"💧 **Water:** {soil['water']}")
+                st.write(f"🌱 **Best Crops:** {soil['crops']}")
+                st.caption(soil['desc'])
+                st.caption("Source: ARC Soil Map")
+
+    st.divider()
+    st.info("For Matatiele: You mostly have Hutton + Clovelly + Mispah (degraded). Add compost + lime for Clovelly. Plant Spekboom+Aloe on Mispah.")
 
 with tab6:
     st.header("Ask Expert - Any Crop Now")
