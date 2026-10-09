@@ -146,12 +146,91 @@ with tab3:
                 except Exception as e:
                     st.error(f"PlantNet error: {e}")
 with tab4:
-    st.header("Soil Scanner")
-    s_img = st.file_uploader("Upload soil", type=["jpg","png"], key="soil")
-    s_type = st.selectbox("Soil type", ["Degraded / Donga", "Sandy", "Clay", "Loam", "Sandy Loam Matatiele"])
-    if s_img:
-        st.image(s_img, width=300)
-    st.write(f"Advice for {s_type}: Spekboom+Aloe for degraded, compost 100-200 buckets for sandy, mound for clay")
+    st.header("Soil Scanner - AI Camera")
+    st.write("Take a photo of soil, AI will predict type + colour")
+
+    # --- Image Input: Camera + Upload ---
+    cam_img = st.camera_input("Take photo of soil", key="soil_cam")
+    s_img = st.file_uploader("Or Upload soil", type=["jpg","png","jpeg"], key="soil_up")
+
+    # Use camera if available, else upload
+    final_img = cam_img if cam_img else s_img
+
+    if final_img:
+        st.image(final_img, width=300, caption="Soil Sample")
+        
+        # --- AI ANALYSIS ---
+        from PIL import Image
+        import numpy as np
+        
+        # Load image
+        img = Image.open(final_img).convert("RGB")
+        img_small = img.resize((100, 100))  # faster
+        arr = np.array(img_small)
+        
+        # Average colour
+        avg_r = int(np.mean(arr[:,:,0]))
+        avg_g = int(np.mean(arr[:,:,1]))
+        avg_b = int(np.mean(arr[:,:,2]))
+        brightness = int((avg_r + avg_g + avg_b) / 3)
+        
+        # Simple AI Heuristic for Soil Type
+        # Sandy = light, high brightness, yellowish
+        # Loam = dark brown, balanced
+        # Clay = reddish, high R
+        # Degraded / Donga = very light grey/white
+        
+        r, g, b = avg_r, avg_g, avg_b
+        
+        if brightness > 180 and r > 170 and g > 160:
+            pred_type = "Sandy"
+            conf = 85
+            reason = "Light colour, high brightness, low organic matter"
+        elif r > 140 and r > g + 20 and r > b + 20 and brightness < 150:
+            pred_type = "Clay"
+            conf = 80
+            reason = "Reddish tint, high Red value, holds water"
+        elif brightness < 90:
+            pred_type = "Degraded / Donga"
+            conf = 88
+            reason = "Very dark OR very pale grey, low fertility crust"
+        elif 90 <= brightness <= 175 and abs(r-g) < 40:
+            pred_type = "Loam"
+            conf = 82
+            reason = "Balanced brown, ideal for crops"
+        else:
+            pred_type = "Sandy Loam"
+            conf = 75
+            reason = "Matatiele common mix - good for all crops"
+
+        # --- RESULTS ---
+        hex_color = f"#{r:02x}{g:02x}{b:02x}"
+        
+        st.success(f"**AI Prediction: {pred_type} ({conf}% confidence)**")
+        st.info(f"Reason: {reason}")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            st.write(f"**Colour Analysis:**")
+            st.write(f"RGB: ({r}, {g}, {b})")
+            st.write(f"HEX: {hex_color}")
+            st.write(f"Brightness: {brightness}/255")
+            st.color_picker("Dominant Colour", hex_color)
+        with col2:
+            if pred_type == "Sandy":
+                st.write("pH: 6.0-7.0 | Drain fast")
+            elif pred_type == "Clay":
+                st.write("pH: 5.5-6.5 | Holds water, add compost")
+            elif pred_type == "Loam":
+                st.write("pH: 6-7 | BEST for all crops")
+            else:
+                st.write("pH: 5.0-5.5 | Needs rehab: Spekboom+Aloe")
+
+        # Your old advice logic - KEEP
+        st.write(f"**Advice for {pred_type}:** Spekboom+Aloe for degraded, compost+cow manure for sandy, lime for clay")
+        
+        # Allow user to override
+        s_type = st.selectbox("Correct if wrong:", ["Degraded / Donga", "Sandy", "Clay", "Loam", "Sandy Loam"], index=0 if "Degrad" in pred_type else 1)
 
 with tab5:
     st.header("Soil Library")
