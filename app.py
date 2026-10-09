@@ -307,13 +307,26 @@ with tab7:
             
             st.info("💡 TO MAKE IT REAL: Replace with BeautifulSoup scraper below:")
             st.code("""
-headers = {'User-Agent': 'FarmSmartSA/1.0'}
-r = requests.get('https://www.joburgmarket.co.za/dailyprices.php', headers=headers)
-soup = BeautifulSoup(r.text, 'html.parser')
-# Find table -> parse prices
-            """)
-        except Exception as e:
-            st.error(f"Scan failed: {e}")
+headers = {'User-Agent': 'FarmSmartSA/1.0 (Busisiwe Matatiele)'}
+try:
+    r = requests.get('https://www.joburgmarket.co.za/dailyprices.php', headers=headers, timeout=15)
+    soup = BeautifulSoup(r.text, 'html.parser')
+    # Find table -> parse prices
+    table = soup.find('table') # get first table
+    rows = []
+    for tr in table.find_all('tr')[:10]: # first 10 rows
+        cols = [td.get_text(strip=True) for td in tr.find_all(['td','th'])]
+        if cols:
+            rows.append(cols)
+
+    if rows:
+        import pandas as pd
+        df = pd.DataFrame(rows[1:], columns=rows[0])
+        st.table(df)
+    else:
+        st.warning("Site blocked - using backup prices")
+except Exception as e:
+    st.error(f"Market site busy: {e}")
 
     # --- FUNCTION 2: GOVERNMENT SUBSIDIES + FACEBOOK GROUPS ---
     def scan_subsidies():
