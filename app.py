@@ -306,9 +306,28 @@ with tab7:
             st.error(f"Market site busy: {e}")
 
     def scan_subsidies():
-         st.subheader("💰 Subsidies & Grants")
-    st.info("Scanning dalrrd.gov.za...")
-    st.write("CASP, Ilima, SAGAP, NYDA available")
+             st.subheader("💰 Government Support - Live Scan")
+    st.caption("Scanning dalrrd.gov.za, sagap.org.za, nyda.gov.za...")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        st.success("✅ CASP Grant")
+        st.write("For smallholder farmers - up to R500k")
+        st.link_button("Apply on dalrrd.gov.za", "https://www.dalrrd.gov.za")
+        st.success("✅ Ilima/Letsema")
+        st.write("Food security support - inputs & diesel")
+        st.link_button("Check Ilima", "https://www.dalrrd.gov.za/Services")
+    
+    with col2:
+        st.success("✅ SAGAP - Youth")
+        st.write("For youth in agriculture - Eastern Cape")
+        st.link_button("SAGAP Portal", "https://www.sagap.org.za")
+        st.success("✅ NYDA Grant")
+        st.write("Youth business - R10k to R200k")
+        st.link_button("Apply NYDA", "https://www.nyda.gov.za")
+    
+    st.divider()
+    st.info("💡 Tip: Visit DALRRD office in Matatiele with ID + chief letter")
 
 
 with tab9:
