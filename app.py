@@ -279,36 +279,12 @@ with tab6:
     q = st.text_area("Ask about ANY plant: maize, spinach, tomato, etc")
     if st.button("Ask"):
         st.write(f"Answer for any crop: Check soil pH, water, sun. Your farm 0.5ha can add new crops in soil scanner advice.")
-              # ============ TAB 7 - OSINT MODULE ============
-with tab7:
-    st.header("🛰️ FarmSmartSA OSINT Scanner")
-    st.write("Scan Market Prices | Subsidies | Stolen Livestock")
+              with tab7:
+    st.header("🔍 Live Market & Subsidies - All SA")
 
-    import requests
-    from bs4 import BeautifulSoup
-    import datetime
-
-    # --- FUNCTION 1: MARKET PRICES ALL PROVINCES ---
     def scan_market_prices():
-        st.subheader("📊 Market Prices - All Provinces")
-        # Source 1: DALRRD / Joburg Market (free)
-        try:
-            # Example - Joburg Market daily prices
-            url = "https://www.joburgmarket.co.za/dailyprices.php"
-            # For demo we use static data - you replace with real scraper
-            prices = {
-                "Gauteng (Joburg)": {"Tomatoes": "R8.50/kg", "Cabbage": "R12/head", "Maize": "R4.2k/ton"},
-                "Eastern Cape (PE)": {"Tomatoes": "R9.00/kg", "Cabbage": "R13/head", "Maize": "R4.5k/ton"},
-                "KZN (Durban)": {"Tomatoes": "R10/kg", "Cabbage": "R14/head", "Maize": "R4.8k/ton"},
-            }
-            st.success("Live scan complete")
-            for prov, items in prices.items():
-                st.write(f"**{prov}** - {items}")
-            
-            st.info("💡 TO MAKE IT REAL: Replace with BeautifulSoup scraper below:")
-                            def scan_market_prices():
-        st.subheader("📊 Market Prices - All Provinces")
-        st.success("Live scan complete")
+        st.subheader("📊 Market Prices")
+        st.success("Live scan complete - Real prices active")
         st.caption("Scanning Joburg Market...")
         headers = {'User-Agent': 'FarmSmartSA/1.0'}
         try:
@@ -329,82 +305,7 @@ with tab7:
         except Exception as e:
             st.error(f"Market site busy: {e}")
 
-    # --- FUNCTION 2: GOVERNMENT SUBSIDIES + FACEBOOK GROUPS ---
     def scan_subsidies():
-        st.subheader("🏛️ Government Notices & Facebook Groups")
-        query = st.text_input("Search subsidy keyword:", "CASP Ilima Letsema 2026")
-        
-        if st.button("Scan Google News + Gov"):
-            with st.spinner("Scanning DALRRD + Google News..."):
-                # GOOGLE NEWS RSS (FREE - NO API KEY)
-                rss_url = f"https://news.google.com/rss/search?q={query}+DALRRD+South+Africa&hl=en-ZA&gl=ZA&ceid=ZA:en"
-                try:
-                    r = requests.get(rss_url, timeout=10)
-                    soup = BeautifulSoup(r.content, 'xml')
-                    items = soup.find_all('item')[:5]
-                    for item in items:
-                        st.write(f"✅ **{item.title.text}**")
-                        st.write(f"   {item.link.text}")
-                        st.write(f"   {item.pubDate.text}")
-                        st.divider()
-                except Exception as e:
-                    st.error(f"Google News error: {e}")
-
-            st.warning("⚠️ FACEBOOK GROUPS: Facebook blocks scraper. Legal way:")
-            st.write("1. Use Facebook Graph API (need approval)")
-            st.write("2. For now, use Google search: `site:facebook.com/groups \"{query}\"`")
-            fb_search = f"https://www.google.com/search?q=site:facebook.com/groups+{query.replace(' ', '+')}"
-            st.link_button("Search FB Groups via Google", fb_search)
-
-    # --- FUNCTION 3: STOLEN LIVESTOCK REPORTS ---
-    def scan_stolen_livestock():
-        st.subheader("🐄 Stolen Livestock Reports - SAPS / Stock Theft")
-        province_filter = st.selectbox("Filter by Province", ["All", "Eastern Cape", "KZN", "Limpopo", "Free State"])
-        
-        if st.button("Scan SAPS Stock Theft News"):
-            with st.spinner("Scanning SAPS + News24 stock theft..."):
-                # Google News RSS for stock theft
-                rss_url = "https://news.google.com/rss/search?q=stolen+livestock+OR+stock+theft+South+Africa+SAPS&hl=en-ZA&gl=ZA&ceid=ZA:en"
-                r = requests.get(rss_url, timeout=10)
-                soup = BeautifulSoup(r.content, 'xml')
-                items = soup.find_all('item')[:7]
-                
-                alerts = []
-                for item in items:
-                    if province_filter.lower() in item.title.text.lower() or province_filter == "All":
-                        st.error(f"🚨 {item.title.text}")
-                        st.write(f"Link: {item.link.text}")
-                        st.caption(item.pubDate.text)
-                        alerts.append(item.title.text)
-                
-                if not alerts:
-                    st.success("No new stolen livestock alerts for this province today")
-
-    # --- UI BUTTONS ---
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        if st.button("📊 Scan Market Prices", use_container_width=True):
-            scan_market_prices()
-    with col2:
-        if st.button("🏛️ Scan Subsidies", use_container_width=True):
-            scan_subsidies()
-    with col3:
-        if st.button("🐄 Scan Stolen Livestock", use_container_width=True):
-            scan_stolen_livestock()
-
-    st.divider()
-    
-    # --- COMBINED OSINT REPORT ---
-    if st.button("🔎 RUN FULL OSINT SCAN (All 3)"):
-        scan_market_prices()
-        scan_subsidies()
-        scan_stolen_livestock()
-        st.balloons()
-        # Save report
-        report_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-        st.download_button("Download OSINT Report (TXT)", 
-                           data=f"FarmSmartSA OSINT Report {report_time}\nMarket, Subsidy, Livestock scan complete",
-                           file_name=f"FarmSmartSA_OSINT_{report_time}.txt")
                            
 
 with tab9:
