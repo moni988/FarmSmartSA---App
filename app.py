@@ -278,7 +278,7 @@ with tab6:
     st.header("Ask Expert - Any Crop Now")
     q = st.text_area("Ask about ANY plant: maize, spinach, tomato, etc")
     if st.button("Ask"):
-        st.write(f"Answer for any crop: Check soil pH, water, sun. Your farm 0.5ha can add new crops in soil scanner advice."
+        st.write(f"Answer for any crop: Check soil pH, water, sun. Your farm 0.5ha can add new crops in soil scanner advice.")
               # ============ TAB 7 - OSINT MODULE ============
 with tab7:
     st.header("🛰️ FarmSmartSA OSINT Scanner")
