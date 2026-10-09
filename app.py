@@ -306,25 +306,28 @@ with tab7:
                 st.write(f"**{prov}** - {items}")
             
             st.info("💡 TO MAKE IT REAL: Replace with BeautifulSoup scraper below:")
-                        st.caption("Scanning Joburg Market...")
-            headers = {'User-Agent': 'FarmSmartSA/1.0'}
-            try:
-                r = requests.get('https://www.joburgmarket.co.za/dailyprices.php', headers=headers, timeout=15)
-                soup = BeautifulSoup(r.text, 'html.parser')
-                table = soup.find('table')
-                rows = []
-                for tr in table.find_all('tr')[:10]:
-                    cols = [td.get_text(strip=True) for td in tr.find_all(['td','th'])]
-                    if cols:
-                        rows.append(cols)
-                if rows:
-                    import pandas as pd
-                    df = pd.DataFrame(rows[1:], columns=rows[0])
-                    st.table(df)
-                else:
-                    st.warning("Site blocked - using backup prices")
-            except Exception as e:
-                st.error(f"Market site busy: {e}")
+                            def scan_market_prices():
+        st.subheader("📊 Market Prices - All Provinces")
+        st.success("Live scan complete")
+        st.caption("Scanning Joburg Market...")
+        headers = {'User-Agent': 'FarmSmartSA/1.0'}
+        try:
+            r = requests.get('https://www.joburgmarket.co.za/dailyprices.php', headers=headers, timeout=15)
+            soup = BeautifulSoup(r.text, 'html.parser')
+            table = soup.find('table')
+            rows = []
+            for tr in table.find_all('tr')[:10]:
+                cols = [td.get_text(strip=True) for td in tr.find_all(['td','th'])]
+                if cols:
+                    rows.append(cols)
+            if rows:
+                import pandas as pd
+                df = pd.DataFrame(rows[1:], columns=rows[0])
+                st.table(df)
+            else:
+                st.warning("Site blocked - using backup prices")
+        except Exception as e:
+            st.error(f"Market site busy: {e}")
 
     # --- FUNCTION 2: GOVERNMENT SUBSIDIES + FACEBOOK GROUPS ---
     def scan_subsidies():
