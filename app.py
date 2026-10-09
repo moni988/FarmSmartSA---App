@@ -306,7 +306,10 @@ with tab7:
             st.error(f"Market site busy: {e}")
 
     def scan_subsidies():
-                           
+         st.subheader("💰 Subsidies & Grants")
+    st.info("Scanning dalrrd.gov.za...")
+    st.write("CASP, Ilima, SAGAP, NYDA available")
+
 
 with tab9:
     st.header("Business Kit")
