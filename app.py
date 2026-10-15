@@ -48,8 +48,6 @@ st.caption(T(f"Matatiele Mapeng | {datetime.now().date()} | Language: {lang_name
 try:
     API_KEY = st.secrets["WEATHER_API_KEY"]
 
-try:
-    API_KEY = st.secrets["WEATHER_API_KEY"]
 except:
     API_KEY = "b6a9082fddf3edfdb3c8903722f60c71"
 
