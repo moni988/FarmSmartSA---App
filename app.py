@@ -338,3 +338,17 @@ with tab9:
     st.write("Kit R9610 = R5000 ingredients + R3000 containers + R1610 tools. 5L Aloe = 41 bottles free after 6 months")
 
 st.caption("v4 Fixed - Weather free key works + Any Plant scanner")
+final List<Map<String, dynamic>> countries = [
+    // --- SADC Neighbours ---
+    {"name": "Lesotho", "flag": "🇱🇸", "soil": "Sandy Loam, Basalt", "ph": "5.5-6.5", "crops": "Maize, Sorghum", "capital_lat": "-29.3,27.5"},
+    {"name": "Mozambique", "flag": "🇲🇿", "soil": "Ferralsols, Sandy", "ph": "5.0-6.0", "crops": "Rice, Cassava"},
+    {"name": "Botswana", "flag": "🇧🇼", "soil": "Arenosols, Calcisols", "ph": "6.5-8.0", "crops": "Sorghum, Cattle"},
+    {"name": "Zimbabwe", "flag": "🇿🇼", "soil": "Ferralsols, Lixisols", "ph": "5.5-6.5", "crops": "Tobacco, Maize"},
+    {"name": "Zambia", "flag": "🇿🇲", "soil": "Acrisols, Ferralsols", "ph": "4.5-5.5", "crops": "Maize, Soya"},
+    {"name": "Namibia", "flag": "🇳🇦", "soil": "Arenosols, Calcisols", "ph": "7.0-8.5", "crops": "Millet, Grapes"},
+
+    // --- CHINA (NEW) ---
+    {"name": "China", "flag": "🇨🇳", "soil": "Paddy Soils, Red Soils, Black Soils (Mollisols)", "ph": "5.5-8.0", "crops": "Rice, Wheat, Soya, Tea - World's biggest soil diversity"},
+
+    // --- EUROPE (NEW) ---
+    {"name": "Germany", "flag": "🇩🇪", "soil": "Cambisols, Luvisols - Very Fertile Loess
