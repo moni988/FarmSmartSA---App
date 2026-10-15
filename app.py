@@ -337,18 +337,20 @@ with tab9:
     st.metric("Sales", f"R{lotion*120 + cream*95}")
     st.write("Kit R9610 = R5000 ingredients + R3000 containers + R1610 tools. 5L Aloe = 41 bottles free after 6 months")
 
-st.caption("v4 Fixed - Weather free key works + Any Plant scanner")
-final List<Map<String, dynamic>> countries = [
-    // --- SADC Neighbours ---
-    {"name": "Lesotho", "flag": "🇱🇸", "soil": "Sandy Loam, Basalt", "ph": "5.5-6.5", "crops": "Maize, Sorghum", "capital_lat": "-29.3,27.5"},
-    {"name": "Mozambique", "flag": "🇲🇿", "soil": "Ferralsols, Sandy", "ph": "5.0-6.0", "crops": "Rice, Cassava"},
-    {"name": "Botswana", "flag": "🇧🇼", "soil": "Arenosols, Calcisols", "ph": "6.5-8.0", "crops": "Sorghum, Cattle"},
-    {"name": "Zimbabwe", "flag": "🇿🇼", "soil": "Ferralsols, Lixisols", "ph": "5.5-6.5", "crops": "Tobacco, Maize"},
-    {"name": "Zambia", "flag": "🇿🇲", "soil": "Acrisols, Ferralsols", "ph": "4.5-5.5", "crops": "Maize, Soya"},
-    {"name": "Namibia", "flag": "🇳🇦", "soil": "Arenosols, Calcisols", "ph": "7.0-8.5", "crops": "Millet, Grapes"},
-
-    // --- CHINA (NEW) ---
-    {"name": "China", "flag": "🇨🇳", "soil": "Paddy Soils, Red Soils, Black Soils (Mollisols)", "ph": "5.5-8.0", "crops": "Rice, Wheat, Soya, Tea - World's biggest soil diversity"},
-
-    // --- EUROPE (NEW) ---
-    {"name": "Germany", "flag": "🇩🇪", "soil": "Cambisols, Luvisols - Very Fertile Loess
+# Tab 10 - International Soil Library
+countries = [
+    {"name": "Lesotho", "flag": "LS", "soil": "Sandy Loam, Basalt", "ph": "5.5-6.5", "crops": "Maize, Sorghum"},
+    {"name": "Mozambique", "flag": "MZ", "soil": "Ferralsols, Sandy", "ph": "5.0-6.0", "crops": "Rice, Cassava"},
+    {"name": "Botswana", "flag": "BW", "soil": "Arenosols, Calcisols", "ph": "6.5-8.0", "crops": "Sorghum, Cattle"},
+    {"name": "Zimbabwe", "flag": "ZW", "soil": "Ferralsols, Lixisols", "ph": "5.5-6.5", "crops": "Tobacco, Maize"},
+    {"name": "Zambia", "flag": "ZM", "soil": "Acrisols, Ferralsols", "ph": "4.5-5.5", "crops": "Maize, Soya"},
+    {"name": "Namibia", "flag": "NA", "soil": "Arenosols, Calcisols", "ph": "7.0-8.5", "crops": "Millet, Grapes"},
+    {"name": "China", "flag": "CN", "soil": "Paddy Soils, Red Soils, Black Soils", "ph": "5.5-8.0", "crops": "Rice, Wheat, Soya, Tea"},
+    {"name": "Germany", "flag": "DE", "soil": "Cambisols, Luvisols, Fertile Loess", "ph": "6.0-7.2", "crops": "Wheat, Barley, Potato"},
+    {"name": "France", "flag": "FR", "soil": "Luvisols, Cambisols, Rendzina", "ph": "6.5-7.5", "crops": "Wheat, Grapes, Maize"},
+    {"name": "Netherlands", "flag": "NL", "soil": "Podzols, Polders Clay, Peat", "ph": "5.5-6.5", "crops": "Tulips, Potato, Greenhouse"},
+    {"name": "Spain", "flag": "ES", "soil": "Calcisols, Cambisols, Dry", "ph": "7.0-8.0", "crops": "Olives, Grapes, Citrus"},
+    {"name": "Ukraine", "flag": "UA", "soil": "Chernozem, Black Earth, Richest", "ph": "6.0-7.0", "crops": "Wheat, Sunflower, Maize"},
+    {"name": "United Kingdom", "flag": "UK", "soil": "Gleysols, Brown Earth", "ph": "5.5-6.5", "crops": "Wheat, Barley"},
+    {"name": "Italy", "flag": "IT", "soil": "Cambisols, Volcanic Soil", "ph": "6.0-7.5", "crops": "Grapes, Olives, Tomatoes"},
+]
