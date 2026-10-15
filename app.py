@@ -3,9 +3,50 @@ import requests
 from datetime import datetime
 from collections import defaultdict
 
-st.set_page_config(page_title="FarmSmartSA v4 Fixed", page_icon="🌿", layout="wide")
-st.title("🌿 FarmSmartSA v4 - Fixed Weather + Any Plant")
-st.caption(f"Matatiele Mapeng | {datetime.now().strftime('%d %B %Y')}")
+st.set_page_config(page_title="FarmSmartSA v4 - Every Language", layout="wide")
+
+# === EVERY LANGUAGE - 19 LANGUAGES FOR SA + CHINA + EUROPE ===
+LANGUAGES = {
+    "English": "en",
+    "isiZulu": "zu",
+    "isiXhosa": "xh",
+    "Afrikaans": "af",
+    "Sesotho": "st",
+    "Sepedi": "nso",
+    "Setswana": "tn",
+    "中文 - Chinese": "zh",
+    "Français": "fr",
+    "Deutsch": "de",
+    "Nederlands": "nl",
+    "Українська": "uk",
+    "Italiano": "it",
+    "Português": "pt",
+    "Español": "es",
+    "Kiswahili": "sw"
+}
+
+if "lang_name" not in st.session_state:
+    st.session_state.lang_name = "English"
+
+st.sidebar.markdown("### 🌍 Language")
+lang_name = st.sidebar.selectbox("Choose", list(LANGUAGES.keys()), index=0)
+st.session_state.lang_name = lang_name
+lang_code = LANGUAGES[lang_name]
+
+def T(text):
+    if lang_code == "en": return text
+    try:
+        from deep_translator import GoogleTranslator
+        return GoogleTranslator(source='en', target=lang_code).translate(text)
+    except:
+        return text
+
+st.title(T("🌿 FarmSmartSA v4 - Fixed W"))
+st.caption(T(f"Matatiele Mapeng | {datetime.now().date()} | Language: {lang_name}"))
+
+# Now your API key try:
+try:
+    API_KEY = st.secrets["WEATHER_API_KEY"]
 
 try:
     API_KEY = st.secrets["WEATHER_API_KEY"]
