@@ -339,20 +339,37 @@ with tab9:
     st.metric("Sales", f"R{lotion*120 + cream*95}")
     st.write("Kit R9610 = R5000 ingredients + R3000 containers + R1610 tools. 5L Aloe = 41 bottles free after 6 months")
 
-# Tab 10 - International Soil Library
-countries = [
-    {"name": "Lesotho", "flag": "LS", "soil": "Sandy Loam, Basalt", "ph": "5.5-6.5", "crops": "Maize, Sorghum"},
-    {"name": "Mozambique", "flag": "MZ", "soil": "Ferralsols, Sandy", "ph": "5.0-6.0", "crops": "Rice, Cassava"},
-    {"name": "Botswana", "flag": "BW", "soil": "Arenosols, Calcisols", "ph": "6.5-8.0", "crops": "Sorghum, Cattle"},
-    {"name": "Zimbabwe", "flag": "ZW", "soil": "Ferralsols, Lixisols", "ph": "5.5-6.5", "crops": "Tobacco, Maize"},
-    {"name": "Zambia", "flag": "ZM", "soil": "Acrisols, Ferralsols", "ph": "4.5-5.5", "crops": "Maize, Soya"},
-    {"name": "Namibia", "flag": "NA", "soil": "Arenosols, Calcisols", "ph": "7.0-8.5", "crops": "Millet, Grapes"},
-    {"name": "China", "flag": "CN", "soil": "Paddy Soils, Red Soils, Black Soils", "ph": "5.5-8.0", "crops": "Rice, Wheat, Soya, Tea"},
-    {"name": "Germany", "flag": "DE", "soil": "Cambisols, Luvisols, Fertile Loess", "ph": "6.0-7.2", "crops": "Wheat, Barley, Potato"},
-    {"name": "France", "flag": "FR", "soil": "Luvisols, Cambisols, Rendzina", "ph": "6.5-7.5", "crops": "Wheat, Grapes, Maize"},
-    {"name": "Netherlands", "flag": "NL", "soil": "Podzols, Polders Clay, Peat", "ph": "5.5-6.5", "crops": "Tulips, Potato, Greenhouse"},
-    {"name": "Spain", "flag": "ES", "soil": "Calcisols, Cambisols, Dry", "ph": "7.0-8.0", "crops": "Olives, Grapes, Citrus"},
-    {"name": "Ukraine", "flag": "UA", "soil": "Chernozem, Black Earth, Richest", "ph": "6.0-7.0", "crops": "Wheat, Sunflower, Maize"},
-    {"name": "United Kingdom", "flag": "UK", "soil": "Gleysols, Brown Earth", "ph": "5.5-6.5", "crops": "Wheat, Barley"},
-    {"name": "Italy", "flag": "IT", "soil": "Cambisols, Volcanic Soil", "ph": "6.0-7.5", "crops": "Grapes, Olives, Tomatoes"},
-]
+# ===== TAB 10 - INTERNATIONAL SOIL LIBRARY =====
+with tab10:
+    st.header("🌍 International Soil Library")
+    st.write("China, Europe & SADC - All Soils")
+
+    countries_data = {
+        "China - North (Black Soil)": {"soil": "Mollisols - Black soil like Free State", "ph": "6.0-7.0", "crops": "Maize, Soya, Wheat", "desc": "Same as Highveld, very fertile"},
+        "China - South (Red Paddy)": {"soil": "Paddy Soil, Red Soil", "ph": "5.0-6.0", "crops": "Rice, Tea", "desc": "Wet rice fields"},
+        "Germany": {"soil": "Cambisols, Luvisols, Loess", "ph": "6.0-7.2", "crops": "Wheat, Barley, Potato", "desc": "Very fertile loess soil"},
+        "France": {"soil": "Luvisols, Cambisols", "ph": "6.5-7.5", "crops": "Wheat, Grapes, Maize", "desc": "Good for vineyards"},
+        "Netherlands": {"soil": "Polder Clay, Peat", "ph": "5.5-6.5", "crops": "Tulips, Greenhouse", "desc": "Reclaimed from sea"},
+        "Spain": {"soil": "Calcisols, Dry", "ph": "7.0-8.0", "crops": "Olives, Citrus", "desc": "Dry Mediterranean"},
+        "Ukraine": {"soil": "Chernozem - World's Best", "ph": "6.0-7.0", "crops": "Wheat, Sunflower", "desc": "Black earth, deepest fertile"},
+        "Italy": {"soil": "Volcanic, Cambisols", "ph": "6.0-7.5", "crops": "Grapes, Tomatoes", "desc": "Volcanic soil"},
+        "Lesotho": {"soil": "Sandy Loam, Basalt", "ph": "5.5-6.5", "crops": "Maize, Sorghum", "desc": "Mountain soils"},
+        "Mozambique": {"soil": "Ferralsols, Sandy", "ph": "5.0-6.0", "crops": "Rice, Cassava", "desc": "Coastal sandy"},
+    }
+
+    selected_country = st.selectbox("Choose Country", list(countries_data.keys()))
+    
+    info = countries_data[selected_country]
+    
+    st.subheader(f"📍 {selected_country}")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.metric("Soil Type", info["soil"])
+        st.metric("pH", info["ph"])
+    with col2:
+        st.metric("Main Crops", info["crops"])
+        st.info(info["desc"])
+
+    st.divider()
+    st.write("Compare with SA:")
+    st.write(f"SA Highveld is similar to: China North & Ukraine Chernozem")
