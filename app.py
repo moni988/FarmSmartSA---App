@@ -86,13 +86,13 @@ with tab2:
     for prov in province_coords.keys():
         with st.expander(prov):
             st.write(f"{prov} - Delivery {'R20 same day Matatiele' if 'Eastern Cape' in prov else 'R100 Paxi 3-5 days'} - All 4 crops possible check soil tab")
-
 with tab3:
     st.header("3 - Plant Scanner - ANY PLANT REAL AI")
-    st.write("Now scans ANY plant: Spinach, Maize, Cabbage, Tomato, Potato, Aloe, Moringa, Spekboom, Lemongrass + 20,000 more")
+    st.write("Now scans ANY plant: Spinach, Maize,")
 
     try:
         PLANTNET_KEY = st.secrets["PLANTNET_KEY"]
+
     except:
         PLANTNET_KEY = ""
 
