@@ -200,8 +200,8 @@ with tab4:
     st.write(T("Take a photo of soil, AI will predict type + colour"))
 
     # --- Image Input: Camera + Upload ---
-    cam_img = st.camera_input(T("Take photo of soil", key="soil_cam"))
-    s_img = st.file_uploader(T("Or Upload soil", type=["jpg","png","jpeg"], key="soil_up"))
+    cam_img = st.camera_input("Take photo of soil", key="soil_cam")
+    s_img = st.file_uploader("Or Upload soil", type=["jpg","png","jpeg"], key="soil_up")
 
     # Use camera if available, else upload
     final_img = cam_img if cam_img else s_img
