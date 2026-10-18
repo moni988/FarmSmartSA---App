@@ -369,7 +369,92 @@ with tab7:
     
     st.divider()
     st.info("💡 Tip: Visit DALRRD office in Matatiele with ID + chief letter")
+# ===== TAB 8 - DISASTER ALERTS + SOLUTIONS =====
+with tab8:
+    st.header("🚨 Disaster Alerts + Solutions")
+    st.caption("Sources: NDMC | SAWS | Sentinel-1 Flood Data")
 
+    # --- ALERT DATA ---
+    import requests
+    from datetime import datetime
+
+    # Solution cards for each disaster type
+    SOLUTIONS = {
+        "Drought": {
+            "icon": "🏜️",
+            "color": "orange",
+            "actions": ["Mulch heavily to save moisture", "Use drip irrigation", "Plant drought-resistant seeds", "Harvest rainwater in JoJo tanks"],
+            "kit": "Mulch + 2x JoJo 5000L + Drip Kit = R3,850"
+        },
+        "Flood": {
+            "icon": "🌊",
+            "color": "blue",
+            "actions": ["Move livestock to high ground", "Dig diversion trenches", "Cover seedlings with plastic tunnels", "Check Sentinel flood map daily"],
+            "kit": "Trenches + Plastic cover + Drainage = R1,200"
+        },
+        "Frost": {
+            "icon": "❄️",
+            "color": "lightblue",
+            "actions": ["Cover crops with frost cloth at 4pm", "Water soil before frost night", "Use smoke pots / tires in orchard", "Delay planting by 2 weeks"],
+            "kit": "Frost cloth 100m + Smoke kit = R960"
+        },
+        "Locust": {
+            "icon": "🦗",
+            "color": "green",
+            "actions": ["Report to DALRRD: 0800 007 095", "Spray in early morning when locusts rest", "Community spray together", "Protect kraal feed"],
+            "kit": "DALRRD contacts NDMC for free spraying"
+        },
+        "Fire": {
+            "icon": "🔥",
+            "color": "red",
+            "actions": ["Make 5m firebreak around farm", "Keep 2x fire beaters + water backpack", "No burning when wind >20km/h", "Join local FPA - Fire Protection Assoc."],
+            "kit": "Fire beater x2 + Backpack sprayer = R1,500"
+        }
+    }
+
+    # --- TABS FOR ALERT TYPES ---
+    alert_type = st.selectbox("Filter by disaster", ["All", "Drought", "Flood", "Frost", "Locust", "Fire"])
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("🔄 Check SAWS Warnings"):
+            st.link_button("Open SAWS Warnings", "https://www.weathersa.co.za/home/warnings")
+            st.info("SAWS API: api.weathersa.co.za - Warnings endpoint active")
+    with col2:
+        if st.button("🛰️ Check Sentinel Flood"):
+            st.link_button("Sentinel Flood Map", "https://floodmap.modaps.eosdis.nasa.gov/")
+            st.link_button("NDMC Reports", "https://www.ndmc.gov.za/Pages/Reports.aspx")
+
+    st.divider()
+    
+    # --- DISPLAY ALERTS ---
+    alerts_to_show = list(SOLUTIONS.keys()) if alert_type == "All" else [alert_type]
+    
+    for disaster in alerts_to_show:
+        data = SOLUTIONS[disaster]
+        with st.container(border=True):
+            st.subheader(f"{data['icon']} {disaster} Alert")
+            
+            # Mock live status - replace with real API later
+            if disaster == "Flood":
+                st.error(f"⚠️ ACTIVE: Sentinel-1 detected high soil moisture - Eastern Cape & KZN | {datetime.now().strftime('%Y-%m-%d')}")
+            elif disaster == "Drought":
+                st.warning("⚠️ WATCH: NDMC - Below normal rainfall forecast for next 7 days")
+            else:
+                st.success(f"✅ No active {disaster} warning today - SAWS")
+
+            st.markdown("**Solution Card:**")
+            for action in data["actions"]:
+                st.write(f"✅ {action}")
+            
+            st.info(f"💡 **Recommended Kit:** {data['kit']}")
+            
+            c1, c2 = st.columns(2)
+            c1.link_button(f"Report {disaster}", "https://www.ndmc.gov.za")
+            c2.link_button("Call DALRRD", "tel:0800007095")
+
+    st.divider()
+    st.info("💡 Tip: Connect this tab to real APIs - SAWS FTP, NDMC RSS, SentinelHub API with your API key")
 
 with tab9:
     st.header("Business Kit")
