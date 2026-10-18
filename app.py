@@ -5,43 +5,51 @@ from collections import defaultdict
 
 st.set_page_config(page_title="FarmSmartSA v4 - Every Language", layout="wide")
 
-# === EVERY LANGUAGE - 19 LANGUAGES FOR SA + CHINA + EUROPE ===
+# === 19 LANGUAGES - AUTO TRANSLATE ===
 LANGUAGES = {
     "English": "en",
     "isiZulu": "zu",
     "isiXhosa": "xh",
     "Afrikaans": "af",
-    "Sesotho": "st",
     "Sepedi": "nso",
     "Setswana": "tn",
-    "中文 - Chinese": "zh",
-    "Français": "fr",
+    "Sesotho": "st",
+    "Xitsonga": "ts",
+    "siSwati": "ss",
+    "Tshivenda": "ve",
+    "isiNdebele": "nr",
+    "Shona": "sn",
+    "Swahili": "sw",
+    "French": "fr",
+    "Portuguese": "pt",
     "Deutsch": "de",
     "Nederlands": "nl",
-    "Українська": "uk",
-    "Italiano": "it",
-    "Português": "pt",
-    "Español": "es",
-    "Kiswahili": "sw"
+    "Spanish": "es",
+    "Italian": "it"
 }
 
 if "lang_name" not in st.session_state:
     st.session_state.lang_name = "English"
 
-st.sidebar.markdown("### 🌍 Language")
-lang_name = st.sidebar.selectbox("Choose Language", list(LANGUAGES.keys()), index=list(LANGUAGES.keys()).index(st.session_state.lang_name), key="lang_select")
+st.sidebar.markdown("### 🌍 Language / Ulwimi")
+lang_name = st.sidebar.selectbox("Choose", list(LANGUAGES.keys()), index=list(LANGUAGES.keys()).index(st.session_state.lang_name), key="lang_select")
 st.session_state.lang_name = lang_name
 lang_code = LANGUAGES[lang_name]
 
-TRANS = {
-    "zu": {"1 Weather": "1 Isimo Sezulu", "Province": "Isifundazwe", "Weather Fixed - Works With Free Key": "Isimo Sezulu"},
-    "af": {"1 Weather": "1 Weer", "Province": "Provinsie"},
-    "de": {"1 Weather": "1 Wetter", "Province": "Provinz"},
-}
-def T(text):
-    if lang_code == "en":
+@st.cache_data(show_spinner=False)
+def auto_translate(text, target_code):
+    if not text or target_code == "en":
         return text
-    return TRANS.get(lang_code, {}).get(text, f"{text} [{lang_code}]")
+    try:
+        from deep_translator import GoogleTranslator
+        return GoogleTranslator(source='en', target=target_code).translate(text)
+    except:
+        return text
+
+def T(text):
+    if lang_code == "en" or not text or not isinstance(text, str):
+        return text
+    return auto_translate(text, lang_code)
 
 st.title(T("🌿 FarmSmartSA v4 - Fixed W"))
 st.caption(T(f"Matatiele Mapeng | {datetime.now().date()} | Language: {lang_name}"))
