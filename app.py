@@ -145,8 +145,7 @@ with tab3:
     except:
         PLANTNET_KEY = ""
 
-        img = st.file_uploader(T("Upload ANY plant leaf - spinach, aloe, etc"), type=["jpg","png","jpeg"], key="anyplant_real")
-
+        img = st.file_uploader(T("Upload ANY plant leaf"), type=["jpg","png","jpeg"], key="anyplant_real")
     if img:
         st.image(img, width=400)
 
