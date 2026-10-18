@@ -85,13 +85,13 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
 ])
 
 with tab1:
-    st.header("Weather Fixed - Works With Free Key")
+    st.header(T("Weather Fixed - Works With Free Key"))
     sel = st.selectbox("Province", list(province_coords.keys()))
     lat, lon = province_coords[sel]
 
     c1, c2 = st.columns(2)
     with c1:
-        st.subheader("OpenWeather Free 5-Day (Your Key Works)")
+        st.subheader(T("OpenWeather Free 5-Day (Your Key Works)"))
         url_free = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&units=metric&appid={API_KEY}"
         try:
             r = requests.get(url_free, timeout=15).json()
@@ -107,12 +107,12 @@ with tab1:
                     pop = max([x.get("pop",0) for x in items])*100
                     st.write(f"**{date}**: {descs[0]} | {min(temps):.0f}-{max(temps):.0f}C | Rain {pop:.0f}%")
             else:
-                st.error(f"OpenWeather error: {r.get('message','check key')}")
+                st.error(T(f"OpenWeather error: {r.get('message','check key')}"))
         except Exception as e:
-            st.error(f"Error: {e}")
+            st.error(T(f"Error: {e}"))
 
     with c2:
-        st.subheader("SAWS Backup - Open-Meteo FIXED No Key")
+        st.subheader(T("SAWS Backup - Open-Meteo FIXED No Key"))
         url2 = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum&timezone=Africa/Johannesburg&forecast_days=7"
         try:
             d2 = requests.get(url2, timeout=15).json()
@@ -125,19 +125,19 @@ with tab1:
                     rain = d2["daily"]["precipitation_sum"][i]
                     st.write(f"**{date}**: {tmin:.0f}-{tmax:.0f}C | Rain {prob}% | {rain}mm")
             else:
-                st.error(f"Open-Meteo says: {d2}")
+                st.error(T(f"Open-Meteo says: {d2}"))
         except Exception as e:
-            st.error(f"Open-Meteo error: {e}")
+            st.error(T(f"Open-Meteo error: {e}"))
 
 with tab2:
-    st.header("All 9 Provinces + 0.5ha Farm Layout")
-    st.write("South=Aloe 100 rocky no compost, East=Lemongrass 70m 100 buckets compost, West/North=Spekboom 50 cuttings rainy day, Center=Moringa 100 deep holes 200 buckets compost")
+    st.header(T("All 9 Provinces + 0.5ha Farm Layout"))
+    st.write(T("South=Aloe 100 rocky no compost, East=Lemongrass 70m 100 buckets compost, West/North=Spekboom 50 cuttings rainy day, Center=Moringa 100 deep holes 200 buckets compost"))
     for prov in province_coords.keys():
         with st.expander(prov):
-            st.write(f"{prov} - Delivery {'R20 same day Matatiele' if 'Eastern Cape' in prov else 'R100 Paxi 3-5 days'} - All 4 crops possible check soil tab")
+            st.write(T(f"{prov} - Delivery {'R20 same day Matatiele' if 'Eastern Cape' in prov else 'R100 Paxi 3-5 days'} - All 4 crops possible check soil tab"))
 with tab3:
-    st.header("3 - Plant Scanner - ANY PLANT REAL AI")
-    st.write("Now scans ANY plant: Spinach, Maize,")
+    st.header(T("3 - Plant Scanner - ANY PLANT REAL AI"))
+    st.write(T("Now scans ANY plant: Spinach, Maize,"))
 
     try:
         PLANTNET_KEY = st.secrets["PLANTNET_KEY"]
@@ -145,26 +145,26 @@ with tab3:
     except:
         PLANTNET_KEY = ""
 
-    img = st.file_uploader("Upload ANY plant leaf - spinach, aloe, etc", type=["jpg","png","jpeg"], key="anyplant_real")
+    img = st.file_uploader(T("Upload ANY plant leaf - spinach, aloe, etc", type=["jpg","png","jpeg"], key="anyplant_real"))
 
     if img:
-        st.image(img, width=400)
+        st.image(T(img, width=400))
 
         if PLANTNET_KEY == "":
-            st.warning("DEMO MODE: Add free PlantNet key to get real spinach detection")
-            st.info("Your current photo is SPINACH not Aloe - Demo says:")
-            st.success("**SPINACH - Spinacia oleracea - 96%** | Common: Spinach, Swiss Chard | Family: Amaranthaceae")
-            st.write("**Health:** Healthy, dark green, good nitrogen")
-            st.write("**Tip for Spinach Matatiele:** Sandy loam + 50 buckets compost, water morning 3x week, harvest outer leaves after 30 days, pH 6-7")
-            st.write("**For other crops:** Maize yellowing = add kraal manure, Tomato black spots = late blight remove leaves")
+            st.warning(T("DEMO MODE: Add free PlantNet key to get real spinach detection"))
+            st.info(T("Your current photo is SPINACH not Aloe - Demo says:"))
+            st.success(T("**SPINACH - Spinacia oleracea - 96%** | Common: Spinach, Swiss Chard | Family: Amaranthaceae"))
+            st.write(T("**Health:** Healthy, dark green, good nitrogen"))
+            st.write(T("**Tip for Spinach Matatiele:** Sandy loam + 50 buckets compost, water morning 3x week, harvest outer leaves after 30 days, pH 6-7"))
+            st.write(T("**For other crops:** Maize yellowing = add kraal manure, Tomato black spots = late blight remove leaves"))
             st.divider()
-            st.write("**TO FIX FOREVER - Get FREE key in 2 mins:**")
-            st.write("1. Go to https://my.plantnet.org/ -> Sign up free")
-            st.write("2. Go to https://my.plantnet.org/account -> Get API key (500 free scans/day)")
-            st.write("3. Streamlit Secrets add: PLANTNET_KEY = 'your_key_here'")
-            st.write("4. Reboot - then it will say SPINACH correctly, not Aloe")
+            st.write(T("**TO FIX FOREVER - Get FREE key in 2 mins:**"))
+            st.write(T("1. Go to https://my.plantnet.org/ -> Sign up free"))
+            st.write(T("2. Go to https://my.plantnet.org/account -> Get API key (500 free scans/day)"))
+            st.write(T("3. Streamlit Secrets add: PLANTNET_KEY = 'your_key_here'"))
+            st.write(T("4. Reboot - then it will say SPINACH correctly, not Aloe"))
         else:
-            with st.spinner("Scanning ANY plant with PlantNet AI..."):
+            with st.spinner(T("Scanning ANY plant with PlantNet AI...")):
                 try:
                     url = f"https://my-api.plantnet.org/v2/identify/all?api-key={PLANTNET_KEY}"
                     files = {'images': (img.name, img.getvalue())}
@@ -177,38 +177,38 @@ with tab3:
                         name = top["species"]["scientificNameWithoutAuthor"]
                         common = top["species"]["commonNames"][0] if top["species"]["commonNames"] else name
                         score = top["score"]*100
-                        st.success(f"**{common} - {name} - {score:.1f}%**")
-                        st.write(f"Family: {top['species']['family']['scientificNameWithoutAuthor']}")
-                        st.write(f"Common names: {', '.join(top['species']['commonNames'][:3])}")
+                        st.success(T(f"**{common} - {name} - {score:.1f}%**"))
+                        st.write(T(f"Family: {top['species']['family']['scientificNameWithoutAuthor']}"))
+                        st.write(T(f"Common names: {', '.join(top['species']['commonNames'][:3])}"))
 
                         # Specific advice for spinach vs aloe
                         if "spinac" in name.lower() or "spinach" in common.lower():
-                            st.info("**SPINACH DETECTED - Not Aloe!** Matatiele tip: Sandy loam + compost 50 buckets, water 3x week morning, harvest 30 days, sell R25 bunch at Matatiele market")
+                            st.info(T("**SPINACH DETECTED - Not Aloe!** Matatiele tip: Sandy loam + compost 50 buckets, water 3x week morning, harvest 30 days, sell R25 bunch at Matatiele market"))
                         elif "aloe" in name.lower():
-                            st.info("**ALOE FEROX** - South rocky no compost no water after 1 month, cut outer leaves 6 months")
+                            st.info(T("**ALOE FEROX** - South rocky no compost no water after 1 month, cut outer leaves 6 months"))
                         elif "moringa" in name.lower():
-                            st.info("**MORINGA** - Center deep holes 50cm 200 buckets compost cover sack winter frost")
+                            st.info(T("**MORINGA** - Center deep holes 50cm 200 buckets compost cover sack winter frost"))
                         elif "portulacaria" in name.lower() or "spekboom" in common.lower():
-                            st.info("**SPEKBOOM** - West/north fence rainy day stick cuttings direct no water")
+                            st.info(T("**SPEKBOOM** - West/north fence rainy day stick cuttings direct no water"))
                         else:
-                            st.info(f"**{common}** - General care: Check soil pH 6-7, water morning, compost kraal manure")
+                            st.info(T(f"**{common}** - General care: Check soil pH 6-7, water morning, compost kraal manure"))
                     else:
-                        st.error(f"No result: {result}")
+                        st.error(T(f"No result: {result}"))
                 except Exception as e:
-                    st.error(f"PlantNet error: {e}")
+                    st.error(T(f"PlantNet error: {e}"))
 with tab4:
-    st.header("Soil Scanner - AI Camera")
-    st.write("Take a photo of soil, AI will predict type + colour")
+    st.header(T("Soil Scanner - AI Camera"))
+    st.write(T("Take a photo of soil, AI will predict type + colour"))
 
     # --- Image Input: Camera + Upload ---
-    cam_img = st.camera_input("Take photo of soil", key="soil_cam")
-    s_img = st.file_uploader("Or Upload soil", type=["jpg","png","jpeg"], key="soil_up")
+    cam_img = st.camera_input(T("Take photo of soil", key="soil_cam"))
+    s_img = st.file_uploader(T("Or Upload soil", type=["jpg","png","jpeg"], key="soil_up"))
 
     # Use camera if available, else upload
     final_img = cam_img if cam_img else s_img
 
     if final_img:
-        st.image(final_img, width=300, caption="Soil Sample")
+        st.image(T(final_img, width=300, caption="Soil Sample"))
         
         # --- AI ANALYSIS ---
         from PIL import Image
@@ -257,35 +257,35 @@ with tab4:
         # --- RESULTS ---
         hex_color = f"#{r:02x}{g:02x}{b:02x}"
         
-        st.success(f"**AI Prediction: {pred_type} ({conf}% confidence)**")
-        st.info(f"Reason: {reason}")
+        st.success(T(f"**AI Prediction: {pred_type} ({conf}% confidence)**"))
+        st.info(T(f"Reason: {reason}"))
         
         col1, col2 = st.columns(2)
         with col1:
-            st.write(f"**Colour Analysis:**")
-            st.write(f"RGB: ({r}, {g}, {b})")
-            st.write(f"HEX: {hex_color}")
-            st.write(f"Brightness: {brightness}/255")
-            st.color_picker("Dominant Colour", hex_color)
+            st.write(T(f"**Colour Analysis:**"))
+            st.write(T(f"RGB: ({r}, {g}, {b})"))
+            st.write(T(f"HEX: {hex_color}"))
+            st.write(T(f"Brightness: {brightness}/255"))
+            st.color_picker(T("Dominant Colour", hex_color))
         with col2:
             if pred_type == "Sandy":
-                st.write("pH: 6.0-7.0 | Drain fast")
+                st.write(T("pH: 6.0-7.0 | Drain fast"))
             elif pred_type == "Clay":
-                st.write("pH: 5.5-6.5 | Holds water, add compost")
+                st.write(T("pH: 5.5-6.5 | Holds water, add compost"))
             elif pred_type == "Loam":
-                st.write("pH: 6-7 | BEST for all crops")
+                st.write(T("pH: 6-7 | BEST for all crops"))
             else:
-                st.write("pH: 5.0-5.5 | Needs rehab: Spekboom+Aloe")
+                st.write(T("pH: 5.0-5.5 | Needs rehab: Spekboom+Aloe"))
 
         # Your old advice logic - KEEP
-        st.write(f"**Advice for {pred_type}:** Spekboom+Aloe for degraded, compost+cow manure for sandy, lime for clay")
+        st.write(T(f"**Advice for {pred_type}:** Spekboom+Aloe for degraded, compost+cow manure for sandy, lime for clay"))
         
         # Allow user to override
-        s_type = st.selectbox("Correct if wrong:", ["Degraded / Donga", "Sandy", "Clay", "Loam", "Sandy Loam"], index=0 if "Degrad" in pred_type else 1)
+        s_type = st.selectbox(T("Correct if wrong:", ["Degraded / Donga", "Sandy", "Clay", "Loam", "Sandy Loam"], index=0 if "Degrad" in pred_type else 1))
 
 with tab5:
-    st.header("Soil Library - 12 SA Soils")
-    st.caption("Source: ARC - Agricultural Research Council Soil Maps | Institute for Soil, Climate & Water")
+    st.header(T("Soil Library - 12 SA Soils"))
+    st.caption(T("Source: ARC - Agricultural Research Council Soil Maps | Institute for Soil, Climate & Water"))
     
     # --- 12 SA Soil Types Database ---
     soils = [
@@ -304,39 +304,39 @@ with tab5:
     ]
 
     # Search
-    search = st.text_input("Search soil: e.g. Hutton, Clay, Matatiele")
+    search = st.text_input(T("Search soil: e.g. Hutton, Clay, Matatiele"))
     filtered = [s for s in soils if search.lower() in s["name"].lower() or search.lower() in s["province"].lower()] if search else soils
 
     # Display as 3-column cards
     cols = st.columns(3)
     for i, soil in enumerate(filtered):
         with cols[i % 3]:
-            with st.container(border=True):
-                st.markdown(f"**{soil['name']}** ({soil['form']})")
+            with st.container(T(border=True)):
+                st.markdown(T(f"**{soil['name']}** ({soil['form']})"))
                 # Colour box as picture
-                st.color_picker(soil['name'], soil['color'], key=f"col_{soil['name']}", disabled=True, label_visibility="collapsed")
-                st.write(f"📍 **Where:** {soil['province']}")
-                st.write(f"🧪 **pH:** {soil['ph']}")
+                st.color_picker(T(soil['name'], soil['color'], key=f"col_{soil['name']}", disabled=True, label_visibility="collapsed"))
+                st.write(T(f"📍 **Where:** {soil['province']}"))
+                st.write(T(f"🧪 **pH:** {soil['ph']}"))
                 st.write(f"💧 **Water:** {soil['water']}")
-                st.write(f"🌱 **Best Crops:** {soil['crops']}")
-                st.caption(soil['desc'])
-                st.caption("Source: ARC Soil Map")
+                st.write(T(f"🌱 **Best Crops:** {soil['crops']}"))
+                st.caption(T(soil['desc']))
+                st.caption(T("Source: ARC Soil Map"))
 
     st.divider()
-    st.info("For Matatiele: You mostly have Hutton + Clovelly + Mispah (degraded). Add compost + lime for Clovelly. Plant Spekboom+Aloe on Mispah.")
+    st.info(T("For Matatiele: You mostly have Hutton + Clovelly + Mispah (degraded). Add compost + lime for Clovelly. Plant Spekboom+Aloe on Mispah."))
 
 with tab6:
-    st.header("Ask Expert - Any Crop Now")
-    q = st.text_area("Ask about ANY plant: maize, spinach, tomato, etc")
+    st.header(T("Ask Expert - Any Crop Now"))
+    q = st.text_area(T("Ask about ANY plant: maize, spinach, tomato, etc"))
     if st.button("Ask"):
-              st.write(f"Answer for any crop: Check soil pH, water, sun. Your farm 0.5ha can add new crops in soil scanner advice.")
+              st.write(T(f"Answer for any crop: Check soil pH, water, sun. Your farm 0.5ha can add new crops in soil scanner advice."))
 with tab7:
-    st.header("🔍 Live Market & Subsidies - All SA")
+    st.header(T("🔍 Live Market & Subsidies - All SA"))
 
     def scan_market_prices():
-        st.subheader("📊 Market Prices")
-        st.success("Live scan complete - Real prices active")
-        st.caption("Scanning Joburg Market...")
+        st.subheader(T("📊 Market Prices"))
+        st.success(T("Live scan complete - Real prices active"))
+        st.caption(T("Scanning Joburg Market..."))
         headers = {'User-Agent': 'FarmSmartSA/1.0'}
         try:
             r = requests.get('https://www.joburgmarket.co.za/dailyprices.php', headers=headers, timeout=15)
@@ -352,37 +352,37 @@ with tab7:
                 df = pd.DataFrame(rows[1:], columns=rows[0])
                 st.table(df)
             else:
-                st.warning("Site blocked - using backup prices")
+                st.warning(T("Site blocked - using backup prices"))
         except Exception as e:
-            st.error(f"Market site busy: {e}")
+            st.error(T(f"Market site busy: {e}"))
 
     def scan_subsidies():
-             st.subheader("💰 Government Support - Live Scan")
-    st.caption("Scanning dalrrd.gov.za, sagap.org.za, nyda.gov.za...")
+             st.subheader(T("💰 Government Support - Live Scan"))
+    st.caption(T("Scanning dalrrd.gov.za, sagap.org.za, nyda.gov.za..."))
     
     col1, col2 = st.columns(2)
     with col1:
-        st.success("✅ CASP Grant")
-        st.write("For smallholder farmers - up to R500k")
-        st.link_button("Apply on dalrrd.gov.za", "https://www.dalrrd.gov.za")
-        st.success("✅ Ilima/Letsema")
-        st.write("Food security support - inputs & diesel")
-        st.link_button("Check Ilima", "https://www.dalrrd.gov.za/Services")
+        st.success(T("✅ CASP Grant"))
+        st.write(T("For smallholder farmers - up to R500k"))
+        st.link_button(T("Apply on dalrrd.gov.za", "https://www.dalrrd.gov.za"))
+        st.success(T("✅ Ilima/Letsema"))
+        st.write(T("Food security support - inputs & diesel"))
+        st.link_button(T("Check Ilima", "https://www.dalrrd.gov.za/Services"))
     
     with col2:
-        st.success("✅ SAGAP - Youth")
-        st.write("For youth in agriculture - Eastern Cape")
-        st.link_button("SAGAP Portal", "https://www.sagap.org.za")
-        st.success("✅ NYDA Grant")
-        st.write("Youth business - R10k to R200k")
-        st.link_button("Apply NYDA", "https://www.nyda.gov.za")
+        st.success(T("✅ SAGAP - Youth"))
+        st.write(T("For youth in agriculture - Eastern Cape"))
+        st.link_button(T("SAGAP Portal", "https://www.sagap.org.za"))
+        st.success(T("✅ NYDA Grant"))
+        st.write(T("Youth business - R10k to R200k"))
+        st.link_button(T("Apply NYDA", "https://www.nyda.gov.za"))
     
     st.divider()
-    st.info("💡 Tip: Visit DALRRD office in Matatiele with ID + chief letter")
+    st.info(T("💡 Tip: Visit DALRRD office in Matatiele with ID + chief letter"))
 # ===== TAB 8 - DISASTER ALERTS + SOLUTIONS =====
 with tab8:
-    st.header("🚨 Disaster Alerts + Solutions")
-    st.caption("Sources: NDMC | SAWS | Sentinel-1 Flood Data")
+    st.header(T("🚨 Disaster Alerts + Solutions"))
+    st.caption(T("Sources: NDMC | SAWS | Sentinel-1 Flood Data"))
 
        # --- LIVE API ---
     @st.cache_data(ttl=3600)
@@ -396,9 +396,9 @@ with tab8:
 
     live = get_live_events()
     if live:
-        st.error(f"🌍 LIVE: {len(live)} events near SA")
+        st.error(T(f"🌍 LIVE: {len(live)} events near SA"))
         for ev in live:
-            st.write(f"• {ev['title']}")
+            st.write(T(f"• {ev['title']}"))
     
     # --- ALERT DATA ---
 
@@ -441,13 +441,13 @@ with tab8:
     
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("🔄 Check SAWS Warnings"):
-            st.link_button("Open SAWS Warnings", "https://www.weathersa.co.za/home/warnings")
-            st.info("SAWS API: api.weathersa.co.za - Warnings endpoint active")
+        if st.button(T("🔄 Check SAWS Warnings")):
+            st.link_button(T("Open SAWS Warnings", "https://www.weathersa.co.za/home/warnings"))
+            st.info(T("SAWS API: api.weathersa.co.za - Warnings endpoint active"))
     with col2:
-        if st.button("🛰️ Check Sentinel Flood"):
-            st.link_button("Sentinel Flood Map", "https://floodmap.modaps.eosdis.nasa.gov/")
-            st.link_button("NDMC Reports", "https://www.ndmc.gov.za/Pages/Reports.aspx")
+        if st.button(T("🛰️ Check Sentinel Flood")):
+            st.link_button(T("Sentinel Flood Map", "https://floodmap.modaps.eosdis.nasa.gov/"))
+            st.link_button(T("NDMC Reports", "https://www.ndmc.gov.za/Pages/Reports.aspx"))
 
     st.divider()
     
@@ -456,8 +456,8 @@ with tab8:
     
     for disaster in alerts_to_show:
         data = SOLUTIONS[disaster]
-        with st.container(border=True):
-            st.subheader(f"{data['icon']} {disaster} Alert")
+        with st.container(T(border=True)):
+            st.subheader(T(f"{data['icon']} {disaster} Alert"))
             
             # Mock live status - replace with real API later
             if disaster == "Flood":
