@@ -68,11 +68,7 @@ province_coords = {
     "Northern Cape - Kimberley": (-28.7282, 24.7499)
 }
 
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
-    T("1 Weather"), T("2 Plant Scanner"), T("3 Soil Scanner"), 
-    T("4 Soil Library"), T("5 Library"), T("6 Assistant"), 
-    T("7 OSINT"), T("8 Disaster"), T("9 Business")
-])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
 
 with tab1:
     st.header("Weather Fixed - Works With Free Key")
