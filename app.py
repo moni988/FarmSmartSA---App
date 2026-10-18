@@ -29,17 +29,19 @@ if "lang_name" not in st.session_state:
     st.session_state.lang_name = "English"
 
 st.sidebar.markdown("### 🌍 Language")
-lang_name = st.sidebar.selectbox("Choose", list(LANGUAGES.keys()), index=0)
+lang_name = st.sidebar.selectbox("Choose Language", list(LANGUAGES.keys()), index=list(LANGUAGES.keys()).index(st.session_state.lang_name), key="lang_select")
 st.session_state.lang_name = lang_name
 lang_code = LANGUAGES[lang_name]
 
+TRANS = {
+    "zu": {"1 Weather": "1 Isimo Sezulu", "Province": "Isifundazwe", "Weather Fixed - Works With Free Key": "Isimo Sezulu"},
+    "af": {"1 Weather": "1 Weer", "Province": "Provinsie"},
+    "de": {"1 Weather": "1 Wetter", "Province": "Provinz"},
+}
 def T(text):
-    if lang_code == "en": return text
-    try:
-        from deep_translator import GoogleTranslator
-        return GoogleTranslator(source='en', target=lang_code).translate(text)
-    except:
+    if lang_code == "en":
         return text
+    return TRANS.get(lang_code, {}).get(text, f"{text} [{lang_code}]")
 
 st.title(T("🌿 FarmSmartSA v4 - Fixed W"))
 st.caption(T(f"Matatiele Mapeng | {datetime.now().date()} | Language: {lang_name}"))
