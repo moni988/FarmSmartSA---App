@@ -148,7 +148,7 @@ with tab3:
         img = st.file_uploader(T("Upload ANY plant leaf - spinach, aloe, etc"), type=["jpg","png","jpeg"], key="anyplant_real")
 
     if img:
-        st.image(T(img, width=400))
+        st.image(img, width=400)
 
         if PLANTNET_KEY == "":
             st.warning(T("DEMO MODE: Add free PlantNet key to get real spinach detection"))
