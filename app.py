@@ -374,9 +374,23 @@ with tab8:
     st.header("🚨 Disaster Alerts + Solutions")
     st.caption("Sources: NDMC | SAWS | Sentinel-1 Flood Data")
 
+       # --- LIVE API ---
+    @st.cache_data(ttl=3600)
+    def get_live_events():
+        try:
+            url = "https://eonet.gsfc.nasa.gov/api/v3/events?category=floods,wildfires,drought&bbox=16,-35,33,-22&status=open&limit=5"
+            r = requests.get(url, timeout=10).json()
+            return r.get('events', [])
+        except:
+            return []
+
+    live = get_live_events()
+    if live:
+        st.error(f"🌍 LIVE: {len(live)} events near SA")
+        for ev in live:
+            st.write(f"• {ev['title']}")
+    
     # --- ALERT DATA ---
-    import requests
-    from datetime import datetime
 
     # Solution cards for each disaster type
     SOLUTIONS = {
