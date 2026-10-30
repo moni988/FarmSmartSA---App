@@ -313,7 +313,7 @@ with tab5:
             with st.container(border=True):
                 st.markdown(T(f"**{soil['name']}** ({soil['form']})"))
                 # Colour box as picture
-                st.color_picker(T(soil['name'], soil['color'], key=f"col_{soil['name']}", disabled=True, label_visibility="collapsed"))
+                st.color_picker(T(soil['name']), soil['color'], key=f"col_{soil['name']}", disabled=True, label_visibility="collapsed")
                 st.write(T(f"📍 **Where:** {soil['province']}"))
                 st.write(T(f"🧪 **pH:** {soil['ph']}"))
                 st.write(f"💧 **Water:** {soil['water']}")
