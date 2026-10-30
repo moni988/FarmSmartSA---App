@@ -310,7 +310,7 @@ with tab5:
     cols = st.columns(3)
     for i, soil in enumerate(filtered):
         with cols[i % 3]:
-            with st.container(T(border=True)):
+            with st.container(border=True):
                 st.markdown(T(f"**{soil['name']}** ({soil['form']})"))
                 # Colour box as picture
                 st.color_picker(T(soil['name'], soil['color'], key=f"col_{soil['name']}", disabled=True, label_visibility="collapsed"))
