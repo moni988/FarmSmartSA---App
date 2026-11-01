@@ -455,7 +455,7 @@ with tab8:
     
     for disaster in alerts_to_show:
         data = SOLUTIONS[disaster]
-        with st.container(T(border=True)):
+        with st.container(border=True):
             st.subheader(T(f"{data['icon']} {disaster} Alert"))
             
             # Mock live status - replace with real API later
