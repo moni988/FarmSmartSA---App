@@ -207,7 +207,7 @@ with tab4:
     final_img = cam_img if cam_img else s_img
 
     if final_img:
-        st.image(T(final_img, width=300, caption="Soil Sample"))
+        st.image(final_img, width=300, caption="Soil Sample")
         
         # --- AI ANALYSIS ---
         from PIL import Image
