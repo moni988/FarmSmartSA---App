@@ -374,7 +374,7 @@ with tab7:
         st.link_button(T("SAGAP Portal"), "https://www.sagap.org.za")
         st.success(T("✅ NYDA Grant"))
         st.write(T("Youth business - R10k to R200k"))
-        st.link_button(T("Apply NYDA", "https://www.nyda.gov.za"))
+        st.link_button(T("Apply NYDA"), "https://www.nyda.gov.za")
     
     st.divider()
     st.info(T("💡 Tip: Visit DALRRD office in Matatiele with ID + chief letter"))
