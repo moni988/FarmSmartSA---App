@@ -371,7 +371,7 @@ with tab7:
     with col2:
         st.success(T("✅ SAGAP - Youth"))
         st.write(T("For youth in agriculture - Eastern Cape"))
-        st.link_button(T("SAGAP Portal", "https://www.sagap.org.za"))
+        st.link_button(T("SAGAP Portal"), "https://www.sagap.org.za")
         st.success(T("✅ NYDA Grant"))
         st.write(T("Youth business - R10k to R200k"))
         st.link_button(T("Apply NYDA", "https://www.nyda.gov.za"))
