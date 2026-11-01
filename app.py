@@ -357,7 +357,7 @@ with tab7:
 
     def scan_subsidies():
              st.subheader(T("💰 Government Support - Live Scan"))
-    st.caption(T("Scanning dalrrd.gov.za, sagap.org.za, nyda.gov.za..."))
+    st.caption(T("Scanning dalrrd.gov.za), sagap.org.za, nyda.gov.za...")
     
     col1, col2 = st.columns(2)
     with col1:
@@ -366,7 +366,7 @@ with tab7:
         st.link_button(T("Apply on dalrrd.gov.za", "https://www.dalrrd.gov.za"))
         st.success(T("✅ Ilima/Letsema"))
         st.write(T("Food security support - inputs & diesel"))
-        st.link_button(T("Check Ilima", "https://www.dalrrd.gov.za/Services"))
+        st.link_button(T("Check Ilima"), "https://www.dalrrd.gov.za/Services")
     
     with col2:
         st.success(T("✅ SAGAP - Youth"))
