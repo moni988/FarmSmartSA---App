@@ -357,7 +357,7 @@ with tab7:
 
     def scan_subsidies():
              st.subheader(T("💰 Government Support - Live Scan"))
-    st.caption(T("Scanning dalrrd.gov.za), sagap.org.za, nyda.gov.za...")
+    st.caption(T("Scanning dalrrd.gov.za, sagap.org.za, nyda.gov.za..."))
     
     col1, col2 = st.columns(2)
     with col1:
