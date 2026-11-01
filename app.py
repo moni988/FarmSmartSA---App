@@ -265,7 +265,7 @@ with tab4:
             st.write(T(f"RGB: ({r}, {g}, {b})"))
             st.write(T(f"HEX: {hex_color}"))
             st.write(T(f"Brightness: {brightness}/255"))
-            st.color_picker(T("Dominant Colour", hex_color))
+            st.color_picker("Dominant Colour", hex_color)
         with col2:
             if pred_type == "Sandy":
                 st.write(T("pH: 6.0-7.0 | Drain fast"))
