@@ -363,7 +363,7 @@ with tab7:
     with col1:
         st.success(T("✅ CASP Grant"))
         st.write(T("For smallholder farmers - up to R500k"))
-        st.link_button(T("Apply on dalrrd.gov.za", "https://www.dalrrd.gov.za"))
+        st.link_button(T("Apply on dalrrd.gov.za"), "https://www.dalrrd.gov.za")
         st.success(T("✅ Ilima/Letsema"))
         st.write(T("Food security support - inputs & diesel"))
         st.link_button(T("Check Ilima"), "https://www.dalrrd.gov.za/Services")
